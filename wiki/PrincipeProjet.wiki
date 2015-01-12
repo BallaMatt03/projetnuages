@@ -8,4 +8,6 @@
 
 == Quelques liens utiles ==
 
-  * 
+  * Infos permettant de récupérer des images comme résultats d'une requête Google : http://googlecode.blogspot.fr/2012/02/image-results-now-available-from-custom.html
+  * Bing search API : http://datamarket.azure.com/dataset/bing/search
+  * API Flickr : https://www.flickr.com/services/api
