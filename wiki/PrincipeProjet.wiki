@@ -6,8 +6,28 @@
   * Rechercher de manière automatique des formes "connues" parmi les nuages de la scène.
   * Afficher en surimpression sur l'image d'origine les formes identifiées
 
+== Processus ==
+
+  * Constituer une petite base d'images de ciels nuageux (merci Internet)
+  * Traiter ces images de façon à séparer les nuages du ciel, en utilisant un algorithme de clustering (C-moyennes, ou "k-means") dont le code est disponible sur le site Numerical Recipes (http://www.nr.com/), par exemple.
+  * Une fois les nuages isolés, utiliser les web-services liés à google pour rechercher des images similaires à tout ou partie d'un nuage.
+  * Récupérer les images résultantes (web-service encore) et les afficher avec l'image d'origine.
+
+== Outils utilisés ==
+
+  * Eclipse IDE for JAVA EE Developers (https://www.eclipse.org/downloads/packages/)
+  * JDK version 7 (http://www.oracle.com/technetwork/java/javaee/downloads/java-ee-sdk-7-downloads-1956236.html)
+
 == Quelques liens utiles ==
 
   * Infos permettant de récupérer des images comme résultats d'une requête Google : http://googlecode.blogspot.fr/2012/02/image-results-now-available-from-custom.html
   * Bing search API : http://datamarket.azure.com/dataset/bing/search
   * API Flickr : https://www.flickr.com/services/api
+
+== Livrables ==
+
+  * Rapport collectif rassemblant une présentation des sous-groupes
+  * Manuel d'utilisateur
+  * Documentation
+  * Programme en état de fonctionnement
+  * Démo (date à fixer) 
