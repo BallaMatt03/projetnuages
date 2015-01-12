@@ -16,7 +16,7 @@
 == Outils utilisés ==
 
   * Eclipse IDE for JAVA EE Developers (https://www.eclipse.org/downloads/packages/)
-  * JDK version 7 ()
+  * JDK version 7 (http://www.oracle.com/technetwork/java/javaee/downloads/java-ee-sdk-7-jdk-7u21-downloads-1956231.html)
   * TortoiseSVN (http://tortoisesvn.net/)
 
 == Quelques liens utiles ==
