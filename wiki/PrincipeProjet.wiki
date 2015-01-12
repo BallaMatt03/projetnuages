@@ -17,6 +17,7 @@
 
   * Eclipse IDE for JAVA EE Developers (https://www.eclipse.org/downloads/packages/)
   * JDK version 7 (http://www.oracle.com/technetwork/java/javaee/downloads/java-ee-sdk-7-downloads-1956236.html)
+  * TortoiseSVN (http://tortoisesvn.net/)
 
 == Quelques liens utiles ==
 
