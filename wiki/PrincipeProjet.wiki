@@ -17,7 +17,7 @@
 
   * Eclipse IDE for JAVA EE Developers (https://www.eclipse.org/downloads/packages/)
   * JDK version 7 (http://www.oracle.com/technetwork/java/javaee/downloads/java-ee-sdk-7-jdk-7u21-downloads-1956231.html)
-  * TortoiseSVN (http://tortoisesvn.net/)
+  * Subversive Plugin for Eclipse (http://eclipse.org/subversive/downloads.php)
 
 == Quelques liens utiles ==
 
