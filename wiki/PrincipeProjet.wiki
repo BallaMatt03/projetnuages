@@ -5,3 +5,7 @@
   * Trouver une image de nuages (ciel partiellement nuageux de préférence)
   * Rechercher de manière automatique des formes "connues" parmi les nuages de la scène.
   * Afficher en surimpression sur l'image d'origine les formes identifiées
+
+== Quelques liens utiles ==
+
+  * 
