@@ -26,7 +26,12 @@
 
 == Livrables ==
 
-  * Rapport collectif rassemblant une présentation des sous-groupes
+  * Rapport collectif rassemblant :
+      * Une présentation des sous-groupes
+      * Les travaux effectués par chacun des sous-groupes
+      * Les outils utilisés
+      * Des exemples de fonctionnement de votre programme
+      * Une partie indiquant la façon dont vous avez géré et perçu le travail d'équipe
   * Manuel d'utilisateur
   * Documentation
   * Programme en état de fonctionnement
