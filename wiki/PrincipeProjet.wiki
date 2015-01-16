@@ -37,3 +37,8 @@
   * Documentation
   * Programme en état de fonctionnement
   * Démo (date à fixer) 
+
+== Normes de codage ==
+
+  * http://www.jmdoudoux.fr/java/dej/chap-normes-dev.htm
+  * Javadoc : documenter ses fonctions
