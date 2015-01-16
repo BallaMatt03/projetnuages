@@ -47,5 +47,5 @@
 == Commit ==
 
   * N'importe qui peut commiter sur le svn
-  * Lorsque vous commitez, faire en sorte que le commit soit complet. *1 commit par jour par personne maximum autorisé.* Après le commit, vous devez préparer une code review request aux membres de votre équipe, notamment le coordinateur pour qu'il relise votre code.
+  * Lorsque vous commitez, faire en sorte que le commit soit complet. *1 commit par jour par personne maximum autorisé.* Après le commit, vous devez préparer une code review request aux membres de votre équipe, notamment le coordinateur pour qu'il relise votre code et submit votre request.
   * Chaque équipe commit dans son package situé dans /trunk/src
