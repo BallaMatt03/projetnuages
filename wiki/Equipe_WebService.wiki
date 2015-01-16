@@ -13,6 +13,7 @@ Thanks for watching ! :)
 
 = Documentation =
 
+{{{
 namespace server.webservices.nuages;
 
 /*
@@ -32,6 +33,7 @@ interface NuageService
 	// Returns the processed images with Google results
 	public File findShapes(int number, int xStart, int yStart, int xEnd, int yEnd);
 }
+}}}
 
 
 
