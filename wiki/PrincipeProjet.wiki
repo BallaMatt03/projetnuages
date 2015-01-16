@@ -41,6 +41,7 @@
 == Normes de codage ==
 
   * http://www.jmdoudoux.fr/java/dej/chap-normes-dev.htm
+  * Nom des variables/fonctions/classes en Anglais
   * Javadoc : documenter ses fonctions/classes
 
 == Commit ==
