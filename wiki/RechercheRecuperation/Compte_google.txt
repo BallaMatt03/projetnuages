@@ -1,0 +1,13 @@
+
+  Création d'un compte google pour le projet :
+  
+  ===================================================
+  |   - ID : app5.nuages@gmail.com                  |
+  |   - MDP : PopsApp5                              |
+  ===================================================
+      
+  Ce compte sera utilisé pour appeler les API google.
+  Attention, 100 appels par jour maximum.
+  Le groupe de recherche d'image a la priorité. 
+  
+  
