@@ -47,7 +47,7 @@
 == Commit ==
 
   * N'importe qui peut commiter sur le svn
-  * Lorsque vous commitez, faire en sorte que le commit soit complet. *1 commit par jour par personne maximum autorisé.* Après avoir commiter , vous devez préparer une code review request aux membres de votre équipe (ici : https://code.google.com/p/projetnuages/issues/entry?show=review&former=sourcelist), notamment le coordinateur pour qu'il relise votre code et submit votre request.
+  * Lorsque vous commitez, faire en sorte que le commit soit complet. *1 commit par jour par personne maximum autorisé.* Faire en sorte que le comment du commit soit correct et compréhensif et en *Anglais*. Après avoir commiter , vous devez préparer une code review request aux membres de votre équipe (ici : https://code.google.com/p/projetnuages/issues/entry?show=review&former=sourcelist), notamment le coordinateur pour qu'il relise votre code et submit votre request.
   * Chaque équipe commit dans son package situé dans /trunk/src
 
 == Librairies ==
