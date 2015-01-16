@@ -13,7 +13,25 @@ Thanks for watching ! :)
 
 = Documentation =
 
+namespace server.webservices.nuages;
 
+/*
+ * The ressources given by the web service
+ */ 
+interface NuageService
+{
+	// GET /images application/xml
+	// Returns full catalogue informations in XML format
+	public String getCatalogue();
+
+	// GET /images?number={number:int} image/jpeg
+	// Returns asked image
+	public File getImage(int number);
+
+	// GET /findShapes?image={number:int}&xStart={xStart:int}&yStart={yStart:int}&xEnd={xEnd:int}&yEnd={yEnd:int} archive/zip
+	// Returns the processed images with Google results
+	public File findShapes(int number, int xStart, int yStart, int xEnd, int yEnd);
+}
 
 
 
