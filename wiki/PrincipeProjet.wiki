@@ -16,7 +16,7 @@
 == Outils utilisés ==
 
   * Eclipse IDE for JAVA EE Developers (https://www.eclipse.org/downloads/packages/)
-  * JDK version 7 (http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html | http://www.oracle.com/technetwork/java/javaee/downloads/java-ee-sdk-7-jdk-7u21-downloads-1956231.html)
+  * JDK version 7 (http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
   * Subversive Plugin for Eclipse (http://eclipse.org/subversive/downloads.php), choisir SVN Kit 1.8.7
 
 == Quelques liens utiles ==
