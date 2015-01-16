@@ -52,4 +52,4 @@
 
 == Librairies ==
 
-  * Un dossier 'lib' contient les .jar a ajouter à votre buildpath (Add JARs...), il contient les librairies utilisées par le projet.
+  * Un dossier 'libs' est créé dans chaque package (un pour client et un pour server), il contient les .jar a ajouter à votre buildpath (Add JARs...), il contient les librairies utilisées par le projet.
