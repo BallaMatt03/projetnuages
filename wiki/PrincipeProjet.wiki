@@ -17,7 +17,7 @@
 
   * Eclipse IDE for JAVA EE Developers (https://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/lunasr1a)
   * JDK version 7 (http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
-  * Subversive Plugin for Eclipse (http://eclipse.org/subversive/downloads.php), choisir SVN Kit 1.8.7 (http://svnkit.com/download.php / Window > Preferences > SVN > Get Connectors)
+  * Subversive Plugin for Eclipse (http://eclipse.org/subversive/downloads.php), choisir SVN Kit 1.8.7 (Window > Preferences > SVN > Get Connectors)
 
 == Quelques liens utiles ==
 
