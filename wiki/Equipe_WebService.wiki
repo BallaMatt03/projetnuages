@@ -1,11 +1,17 @@
-#summary One-sentence summary of this page.
+#summary Documentation for the WebService Part.
 
 = Introduction =
 
-Add your content here.
+This following document describe the content of the WebService Part and its 
+interface.
+You can download the differents diagrammes in the resources folder of the project.
+
+Thanks for watching ! :)
 
 
 = Details =
+
+
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
