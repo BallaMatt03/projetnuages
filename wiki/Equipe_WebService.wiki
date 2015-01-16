@@ -1,4 +1,4 @@
-#summary Documentation for the WebService Part.
+#summary Documentation for the WebService Part
 
 = Introduction =
 
