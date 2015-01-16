@@ -12,8 +12,7 @@
 
 === Membres ===
 
-   * Thomas Véron (coordinateur)
-   * Julien De Almeida
+   * Thomas Véron (coordinateur)   
    * Stéphanie Chou
    * Francine Ong
    * Fabien Lassié
@@ -40,6 +39,7 @@
    * Céline Danglet
    * Aurélien Normand
    * Vanessa Lenormand
+   * Julien De Almeida
 
 == Équipe 3 ==
 === Tâches ===
