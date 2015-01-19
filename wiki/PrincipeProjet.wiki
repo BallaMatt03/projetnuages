@@ -41,6 +41,7 @@
 == Normes de codage ==
 
   * Suivre ces règles : http://www.jmdoudoux.fr/java/dej/chap-normes-dev.htm
+  * Installer CheckStyle (suivre ce tuto : http://www.objis.com/formation-java/tutoriel-integration-continue-checkstyle-eclipse.html#partie1) et ajouter la configuration qui vous sera fournie par la suite.
   * Nom des variables/fonctions/classes en *Anglais*
   * Javadoc : documenter ses fonctions/classes en *Anglais*
   * Interface utilisateur final : en *Français*
