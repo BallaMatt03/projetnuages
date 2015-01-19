@@ -36,7 +36,7 @@
   * Manuel d'utilisateur
   * Documentation
   * Programme en état de fonctionnement
-  * Soutenance avec démonstration (Date : vendredi 20 février à 12h30) 
+  * Soutenance avec démonstration (Date : *vendredi 20 février à 12h30*) 
 
 == Normes de codage ==
 
