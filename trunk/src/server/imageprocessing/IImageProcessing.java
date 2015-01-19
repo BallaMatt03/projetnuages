@@ -1,6 +1,3 @@
-/**
- * 
- */
 package server.imageprocessing;
 
 import java.io.File;
@@ -10,27 +7,22 @@ import java.util.List;
  * @author Thomas
  *
  */
-public interface IImageProcessing 
-{
+public interface IImageProcessing  {
+
+	/**
+	 * 
+	 * @param image Full image
+	 * @param crop Coordinates to crop
+	 * @return The processed crop part
+	 */
+    File preProcessing(File image, Crop crop);
 
     /**
-     * Pre-process the full image for google
-     *
-     * @param Full image
-     * @param Coordinates to crop
-     *
-     * @return The processed crop part
+     * 
+     * @param image Full image
+     * @param crop Coordinates of the crop
+     * @param google The results from google
+     * @return  The processed images
      */
-    public File preProcessing(File image, Crop crop);
-
-    /**
-     * Post-process the results from google
-     *
-     * @param Full image
-     * @param Coordinates of the crop
-     * @param The results from google
-     *
-     * @return The processed images
-     */
-    public List<File> postProcessing(File image, Crop crop, List<File> google);
+    List<File> postProcessing(File image, Crop crop, List<File> google);
 }
