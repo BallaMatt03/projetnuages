@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 /**
  * ..
  * 
- * @author Thomas
+ * @author Fabien & Sofiane
  *
  */
 public final class MorphologicalFilter {
@@ -21,7 +21,6 @@ public final class MorphologicalFilter {
 	private MorphologicalFilter() {
 		
 	}
-
 
 	/**
 	 * ..
@@ -62,8 +61,8 @@ public final class MorphologicalFilter {
 	 * ..
 	 */
 	public static Image erose(final Image image, final int coefficient) {
-		BufferedImage b = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_BYTE_BINARY);
-        b.createGraphics().drawImage(image, 0, 0, null);
+		BufferedImage b = new BufferedImage(image.getWidth(null) + 2 * coefficient, image.getHeight(null) + 2 * coefficient, BufferedImage.TYPE_BYTE_BINARY);
+        b.createGraphics().drawImage(image, coefficient, coefficient, null);
             
         BufferedImage bnew = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_BYTE_BINARY);
         
@@ -78,9 +77,9 @@ public final class MorphologicalFilter {
 					}
 				}
 				if (a) {
-					bnew.setRGB(i, j, Color.WHITE.getRGB());
+					bnew.setRGB(i - coefficient, j - coefficient, Color.WHITE.getRGB());
 				} else {
-					bnew.setRGB(i, j, Color.BLACK.getRGB());
+					bnew.setRGB(i - coefficient, j - coefficient, Color.BLACK.getRGB());
 				}
 			}
 		}
@@ -98,12 +97,19 @@ public final class MorphologicalFilter {
 	 * ..
 	 */
 	public static Image dilatate(final Image image, final int coefficient) {
-		BufferedImage b = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_BYTE_BINARY);
-        b.createGraphics().drawImage(image, 0, 0, null);
+		BufferedImage b = new BufferedImage(image.getWidth(null) + 2 * coefficient, image.getHeight(null) + 2 * coefficient, BufferedImage.TYPE_BYTE_BINARY);
+		
+		for (int i = 0; i < b.getWidth(); i++) {
+			for (int j = 0; j < b.getHeight(); j++) {		
+				b.setRGB(i, j, Color.WHITE.getRGB());	
+			}
+		}
+		
+        b.createGraphics().drawImage(image, coefficient, coefficient, null);
             
         BufferedImage bnew = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_BYTE_BINARY);
         
-        for (int i = coefficient; i < b.getWidth() - coefficient; i++) {
+		for (int i = coefficient; i < b.getWidth() - coefficient; i++) {
 			for (int j = coefficient; j < b.getHeight() - coefficient; j++) {
 				boolean a = false;
 				for (int k = -coefficient; k <= coefficient; k++) {
@@ -114,9 +120,9 @@ public final class MorphologicalFilter {
 					}
 				}
 				if (a) {
-					bnew.setRGB(i, j, Color.BLACK.getRGB());
+					bnew.setRGB(i - coefficient, j - coefficient, Color.BLACK.getRGB());
 				} else {
-					bnew.setRGB(i, j, Color.WHITE.getRGB());
+					bnew.setRGB(i - coefficient, j - coefficient, Color.WHITE.getRGB());
 				}
 			}
 		}
