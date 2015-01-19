@@ -6,9 +6,9 @@ ce qui à été fait et ce qui est à faire
 
 -> Attribution des groupes pour le check à chaque itération :
 
-Matthias & Tony => Traitement d'images
-Tony => Client
-Matthias => Webservice serveur
+  * Matthias & Tony => Traitement d'images
+  * Tony => Client
+  * Matthias => Webservice serveur
 
 -> Check list :
 
@@ -17,7 +17,5 @@ Matthias => Webservice serveur
   * Vérifier les normes de codage
   * Tests fonctionnels 
   * Vérifier la conf
-
-
 
 
