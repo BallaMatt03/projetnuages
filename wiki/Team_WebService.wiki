@@ -13,6 +13,8 @@ Thanks for watching ! :)
 
 = Documentation =
 
+Version 1.1 (Subject Changed)
+
 {{{
 namespace server.webservices.nuages;
 
@@ -29,8 +31,12 @@ interface NuageService
 	// Returns asked image
 	public File getImage(int number);
 
-	// GET /findShapes?image={number:int}&xStart={xStart:int}&yStart={yStart:int}&xEnd={xEnd:int}&yEnd={yEnd:int} archive/zip
-	// Returns the processed images with Google results
-	public File findShapes(int number, int xStart, int yStart, int xEnd, int yEnd);
+	// GET /findShapes?search={search:String}
+	// Returns Zip file that contains the result of google search
+	public File findShapes(String search);
+
+	// GET /Merge?...
+	// Returns Zip file that contains the result of google search
+	public File Merge(File source, File selection, int xStart, int yStart, int xEnd, int yEnd);
 }
 }}}
