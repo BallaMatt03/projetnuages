@@ -46,7 +46,7 @@
     * Name : projet_nuages_checks
     * Type : choisir External Configuration File et choisir le fichier xml envoyé : config_nuages_checks.xml
     * Après avoir ajouter cette configuration, il faut la mettre par défaut grâce à 'Set as Default'
-    * Enfin, clic droit sur le projet dans eclipse > checkstyle > Activate sheckstyle
+    * Enfin, clic droit sur le projet dans eclipse > checkstyle > Activate checkstyle
   * Nom des variables/fonctions/classes en *Anglais*
   * Javadoc : documenter ses fonctions/classes en *Anglais*
   * Interface utilisateur final : en *Français*
