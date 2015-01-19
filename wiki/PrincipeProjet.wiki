@@ -43,7 +43,7 @@
   * Suivre ces règles : http://www.jmdoudoux.fr/java/dej/chap-normes-dev.htm
   * Installer checkstyle (suivre ce tuto : http://www.objis.com/formation-java/tutoriel-integration-continue-checkstyle-eclipse.html#partie1) puis :
     * aller dans Eclipse > Window > Preferences > checkstyle > Global Check Configurations > New...
-    * Name : Projet_Nuages_Checks
+    * Name : projet_nuages_checks
     * Type : choisir External Configuration File et choisir le fichier xml envoyé : config_nuages_checks.xml
     * Après avoir ajouter cette configuration, il faut la mettre par défaut grâce à 'Set as Default'
     * Enfin, clic droit sur le projet dans eclipse > checkstyle > Activate sheckstyle
