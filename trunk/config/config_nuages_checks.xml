@@ -33,6 +33,7 @@
     <module name="LineLength">
       <property name="severity" value="ignore"/>
       <property name="max" value="120"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
     <module name="MethodLength"/>
     <module name="ParameterNumber"/>
@@ -64,7 +65,10 @@
     <module name="SimplifyBooleanExpression"/>
     <module name="SimplifyBooleanReturn"/>
     <module name="DesignForExtension"/>
-    <module name="FinalClass"/>
+    <module name="FinalClass">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="HideUtilityClassConstructor"/>
     <module name="InterfaceIsType"/>
     <module name="VisibilityModifier"/>
@@ -72,6 +76,9 @@
     <module name="FinalParameters"/>
     <module name="TodoComment"/>
     <module name="UpperEll"/>
+    <module name="CyclomaticComplexity">
+      <property name="max" value="50"/>
+    </module>
   </module>
   <module name="JavadocPackage"/>
   <module name="NewlineAtEndOfFile"/>
