@@ -1,0 +1,20 @@
+Informations API 			: http://weblog4j.com/2014/06/03/having-fun-with-google-custom-search-api-and-java/
+Informations API 			: https://developers.google.com/custom-search/json-api/v1/overview
+
+Compte   					: app5.nuages@gmail.com
+Password 					: PopsApp5    
+
+Google Console Developer 	: https://console.developers.google.com/project
+Google Custom Search 		: https://www.google.com/cse/all
+Public URL Custom Search	: https://www.google.com/cse/publicurl?cx=015876682560979895022:juz8o28p-qc
+
+Search engine ID 			: 015876682560979895022:juz8o28p-qc
+
+API Key 					: AIzaSyDFUA_c_fjpNmColiDWLjaggBWAQm47N5M
+IP address 					: All  
+Activation date 			: 16/01/2015 07:52:00 (US) 
+By 							: app5.nuages@gmail.com
+
+Add all .jar from libsServer/googleAPI
+
+Google API not adapted : https://productforums.google.com/forum/#!topic/customsearch/aXAmqZ09MSY
