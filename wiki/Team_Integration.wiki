@@ -16,6 +16,9 @@ ce qui à été fait et ce qui est à faire
   * Vérifier la couverture des tests sur les méthodes implémentés
   * Vérifier les normes de codage
   * Tests fonctionnels 
-  * Vérifier la conf
+ 
+-> suite à la check list :
 
-
+  * Intégrer -> release ?
+  * Test la version intégré 
+  * Ecrire  l'état du projet à cette itération
