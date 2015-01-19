@@ -9,28 +9,34 @@ import java.awt.Image;
  * @author Thomas
  *
  */
-class MorphologicalFilter {
+class MorphologicalFilter 
+{
 
 	/**
 	 * 
 	 */
-	public MorphologicalFilter() {
+	public MorphologicalFilter() 
+	{
 	}
 
-	static Image opening(Image image, int coefficient){
+	static Image opening(Image image, int coefficient)
+	{
 		return null;
 	}
 
-	static Image closing(Image image, int coefficient){
+	static Image closing(Image image, int coefficient)
+	{
 		return null;
 	}
 
 
-	static Image erose(Image image, int coefficient){
+	static Image erose(Image image, int coefficient)
+	{
 		return null;
 	}
 
-	static Image dilatate(Image image, int coefficient){
+	static Image dilatate(Image image, int coefficient)
+	{
 		return null;
 	}
 }
