@@ -10,7 +10,8 @@ import java.util.List;
  * @author Thomas
  *
  */
-public interface IImageProcessing {
+public interface IImageProcessing 
+{
 
     /**
      * Pre-process the full image for google

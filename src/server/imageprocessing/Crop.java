@@ -7,7 +7,8 @@ package server.imageprocessing;
  * @author Thomas
  *
  */
-public class Crop {
+public class Crop 
+{
 	
 	private int startX;
 	private int startY;
@@ -17,10 +18,12 @@ public class Crop {
 	/**
 	 * 
 	 */
-	public Crop() {
+	public Crop() 
+	{
 	}
 	
-	public Crop(int x, int y, int pwidth, int pheight){
+	public Crop(int x, int y, int pwidth, int pheight)
+	{
 		this.startX = x;
 		this.startY = y;
 		this.height = pheight;
@@ -30,58 +33,64 @@ public class Crop {
 	/**
 	 * @return the startX
 	 */
-	public int getStartX() {
+	public int getStartX() 
+	{
 		return startX;
 	}
 
 	/**
 	 * @param startX the startX to set
 	 */
-	public void setStartX(int startX) {
+	public void setStartX(int startX) 
+	{
 		this.startX = startX;
 	}
 
 	/**
 	 * @return the startY
 	 */
-	public int getStartY() {
+	public int getStartY() 
+	{
 		return startY;
 	}
 
 	/**
 	 * @param startY the startY to set
 	 */
-	public void setStartY(int startY) {
+	public void setStartY(int startY) 
+	{
 		this.startY = startY;
 	}
 
 	/**
 	 * @return the width
 	 */
-	public int getWidth() {
+	public int getWidth() 
+	{
 		return width;
 	}
 
 	/**
 	 * @param width the width to set
 	 */
-	public void setWidth(int width) {
+	public void setWidth(int width) 
+	{
 		this.width = width;
 	}
 
 	/**
 	 * @return the height
 	 */
-	public int getHeight() {
+	public int getHeight() 
+	{
 		return height;
 	}
 
 	/**
 	 * @param height the height to set
 	 */
-	public void setHeight(int height) {
+	public void setHeight(int height) 
+	{
 		this.height = height;
 	}
-
-
 }
