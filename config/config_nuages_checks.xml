@@ -18,12 +18,18 @@
     <module name="JavadocVariable"/>
     <module name="JavadocStyle"/>
     <module name="ConstantName"/>
-    <module name="LocalFinalVariableName"/>
+    <module name="LocalFinalVariableName">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="LocalVariableName"/>
     <module name="MemberName"/>
     <module name="MethodName"/>
     <module name="PackageName"/>
-    <module name="ParameterName"/>
+    <module name="ParameterName">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="StaticVariableName"/>
     <module name="TypeName"/>
     <module name="AvoidStarImport"/>
@@ -73,7 +79,10 @@
     <module name="InterfaceIsType"/>
     <module name="VisibilityModifier"/>
     <module name="ArrayTypeStyle"/>
-    <module name="FinalParameters"/>
+    <module name="FinalParameters">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="TodoComment"/>
     <module name="UpperEll"/>
     <module name="CyclomaticComplexity">
