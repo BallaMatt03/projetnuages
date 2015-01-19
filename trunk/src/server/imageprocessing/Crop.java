@@ -1,29 +1,42 @@
-/**
- * 
- */
 package server.imageprocessing;
 
 /**
  * @author Thomas
  *
  */
-public class Crop 
-{
+public class Crop {
 	
+	/**
+	 * position x .
+	 */
 	private int startX;
+	/**
+	 *  position y.
+	 */
 	private int startY;
+	/**
+	 * width of crop .
+	 */
 	private int width;
+	/**
+	 * height of crop .
+	 */
 	private int height;
 
 	/**
-	 * 
+	 * Constructor without parameter.
 	 */
-	public Crop() 
-	{
+	public Crop() {
 	}
 	
-	public Crop(int x, int y, int pwidth, int pheight)
-	{
+	/**
+	 * Constructor.
+	 * @param x :x
+	 * @param y  :y
+	 * @param pwidth : width
+	 * @param pheight : height:
+	 */
+	public Crop(final int x, final int y, final int pwidth, final int pheight) {
 		this.startX = x;
 		this.startY = y;
 		this.height = pheight;
@@ -33,64 +46,56 @@ public class Crop
 	/**
 	 * @return the startX
 	 */
-	public int getStartX() 
-	{
+	public final int getStartX() {
 		return startX;
 	}
 
 	/**
-	 * @param startX the startX to set
+	 * @param pstartX the startX to set.
 	 */
-	public void setStartX(int startX) 
-	{
-		this.startX = startX;
+	public final void setStartX(final int pstartX) {
+		this.startX = pstartX;
 	}
 
 	/**
 	 * @return the startY
 	 */
-	public int getStartY() 
-	{
+	public final int getStartY() {
 		return startY;
 	}
 
 	/**
-	 * @param startY the startY to set
+	 * @param pstartY the startY to set.
 	 */
-	public void setStartY(int startY) 
-	{
-		this.startY = startY;
+	public final void setStartY(final int pstartY) {
+		this.startY = pstartY;
 	}
 
 	/**
 	 * @return the width
 	 */
-	public int getWidth() 
-	{
+	public final int getWidth() {
 		return width;
 	}
 
 	/**
-	 * @param width the width to set
+	 * @param pwidth the width to set
 	 */
-	public void setWidth(int width) 
-	{
-		this.width = width;
+	public final void setWidth(final int pwidth) {
+		this.width = pwidth;
 	}
 
 	/**
 	 * @return the height
 	 */
-	public int getHeight() 
-	{
+	public final int getHeight() {
 		return height;
 	}
 
 	/**
-	 * @param height the height to set
+	 * @param pheight the height to set
 	 */
-	public void setHeight(int height) 
-	{
-		this.height = height;
+	public final void setHeight(final int pheight) {
+		this.height = pheight;
 	}
 }
