@@ -9,24 +9,30 @@ import java.awt.Image;
  * @author Thomas
  *
  */
-class Clustering 
-{
+public final class Clustering {
 
 	/**
 	 * 
 	 */
-	public Clustering() 
-	{
+	private Clustering() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	static Image kmeans(Image source)
-	{
+	/**
+	 * kMeans algorithm.
+	 * @param source image source
+	 * @return picture
+	 */
+	static Image kmeans(final Image source) {
 		return null;
 	}
 	
-	Image getMaxConnexComposant(Image image )
-	{
+	/**
+	 * Get max connex composant.
+	 * @param image image source
+	 * @return image
+	 */
+	Image getMaxConnexComposant(final Image image) {
 		return null;
 	}
 
