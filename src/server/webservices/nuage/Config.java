@@ -15,7 +15,7 @@ public final class Config {
 	/**
 	 * The host url for the server.
 	 */
-	public static final String HOST        = "http://localhost:1664/";
+	public static final String HOST = "http://localhost:1664/";
 	
 	/**
 	 * The path where images are stored.
