@@ -40,6 +40,7 @@
    * Aurélien Normand
    * Vanessa Lenormand
    * Julien De Almeida
+   * Quoc Dat Pham
 
 == Équipe 3 ==
 === Tâches ===
@@ -61,7 +62,6 @@
    * Julien Beaussier
    * Cédric Boulet-Kessler
    * Flavien Matrat
-   * Quoc Dat Pham
 
 == Équipe 4 ==
 === Tâches ===
