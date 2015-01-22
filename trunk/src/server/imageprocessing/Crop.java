@@ -22,7 +22,12 @@ public class Crop {
 	 * height of crop .
 	 */
 	private int height;
-
+	
+	/**
+	 * angle of crop .
+	 */
+	private double angle;
+	
 	/**
 	 * Constructor without parameter.
 	 */
@@ -31,16 +36,27 @@ public class Crop {
 	
 	/**
 	 * Constructor.
-	 * @param x :x
-	 * @param y  :y
-	 * @param pwidth : width
-	 * @param pheight : height:
+	 * @param x 
+	 * 				x
+	 * @param y 
+	 * 				y
+	 * @param pwidth
+	 * 				width
+	 * @param pheight
+	 * 				height:
+	 * @param pangle
+	 * 				angle of rotation
 	 */
 	public Crop(final int x, final int y, final int pwidth, final int pheight) {
+		this(x, y, pwidth, pheight, 0);
+	}
+	
+	public Crop(final int x, final int y, final int pwidth, final int pheight, double pangle) {
 		this.startX = x;
 		this.startY = y;
 		this.height = pheight;
 		this.width = pwidth;
+		this.angle = pangle;
 	}
 		
 	/**
@@ -51,51 +67,74 @@ public class Crop {
 	}
 
 	/**
-	 * @param pstartX the startX to set.
+	 * @param 
+	 * 			pstartX the startX to set.
 	 */
 	public final void setStartX(final int pstartX) {
 		this.startX = pstartX;
 	}
 
 	/**
-	 * @return the startY
+	 * @return 
+	 * 			the startY
 	 */
 	public final int getStartY() {
 		return startY;
 	}
 
 	/**
-	 * @param pstartY the startY to set.
+	 * @param 
+	 * 			pstartY the startY to set.
 	 */
 	public final void setStartY(final int pstartY) {
 		this.startY = pstartY;
 	}
 
 	/**
-	 * @return the width
+	 * @return 
+	 * 			the width
 	 */
 	public final int getWidth() {
 		return width;
 	}
 
 	/**
-	 * @param pwidth the width to set
+	 * @param 
+	 * 			pwidth the width to set
 	 */
 	public final void setWidth(final int pwidth) {
 		this.width = pwidth;
 	}
 
 	/**
-	 * @return the height
+	 * @return 
+	 * 			the height
 	 */
 	public final int getHeight() {
 		return height;
 	}
 
 	/**
-	 * @param pheight the height to set
+	 * @param 
+	 * 			pheight the height to set
 	 */
 	public final void setHeight(final int pheight) {
 		this.height = pheight;
+	}
+	
+	/**
+	 * @return 
+	 * 			the angle
+	 */
+	public double getAngle() {
+		return angle;
+	}
+
+	/**
+	 * @param 
+	 * 			angle the angle to set
+	 */
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 }
