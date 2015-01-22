@@ -4,7 +4,6 @@
 package server.imageprocessing.processing;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**
@@ -32,7 +31,7 @@ public final class MorphologicalFilter {
 	 * @return
 	 * ..
 	 */
-	public static Image opening(final Image image, final int coefficient) {
+	public static BufferedImage opening(BufferedImage image, int coefficient) {
 		return dilatate(erose(image, coefficient), coefficient);
 	}
 
@@ -46,7 +45,7 @@ public final class MorphologicalFilter {
 	 * @return
 	 * ..
 	 */
-	public static Image closing(final Image image, final int coefficient) {
+	public static BufferedImage closing(BufferedImage image, final int coefficient) {
 		return erose(dilatate(image, coefficient), coefficient);
 	}
 
@@ -60,7 +59,8 @@ public final class MorphologicalFilter {
 	 * @return
 	 * ..
 	 */
-	public static Image erose(final Image image, final int coefficient) {
+	public static BufferedImage erose(BufferedImage image, int coefficient) {
+		
 		BufferedImage b = new BufferedImage(image.getWidth(null) + 2 * coefficient, image.getHeight(null) + 2 * coefficient, BufferedImage.TYPE_BYTE_BINARY);
         b.createGraphics().drawImage(image, coefficient, coefficient, null);
             
@@ -96,7 +96,8 @@ public final class MorphologicalFilter {
 	 * @return
 	 * ..
 	 */
-	public static Image dilatate(final Image image, final int coefficient) {
+	public static BufferedImage dilatate(BufferedImage image, int coefficient) {
+		
 		BufferedImage b = new BufferedImage(image.getWidth(null) + 2 * coefficient, image.getHeight(null) + 2 * coefficient, BufferedImage.TYPE_BYTE_BINARY);
 		
 		for (int i = 0; i < b.getWidth(); i++) {
