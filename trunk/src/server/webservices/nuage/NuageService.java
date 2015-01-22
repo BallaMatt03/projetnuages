@@ -26,7 +26,7 @@ import server.webservices.nuage.services.IFileHandler;
  * 
  * @author Cedric Boulet Kessler
  */
-@Path("images")
+@Path("nuage")
 public class NuageService {
 
 	/**
@@ -75,6 +75,7 @@ public class NuageService {
 	 * @return The catalog in XML
 	 */
 	@GET
+	@Path("images")
 	@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
 	public final Catalog getCatalog() {
 		return catalogFactory.createCatalog();
@@ -89,6 +90,7 @@ public class NuageService {
 	 * @return The requested image
 	 */
 	@GET
+	@Path("images")
 	@Produces("image/jpeg")
 	public final File getImage(@QueryParam("number") String number) {
 		List<String> imagesPath = fileHandler.scanDir(Config.IMAGES_PATH);
@@ -107,6 +109,7 @@ public class NuageService {
 	 * @return A zipped collection of images (google return)
 	 */
 	@GET
+	@Path("findShapes")
 	@Produces("application/zip")
 	public final File findShapes(@QueryParam("keyword") String keyword) {
 		
@@ -117,35 +120,55 @@ public class NuageService {
 		return zip;
 	}
 	
-	// POST /merge?image={number:int}&xStart={xStart:int}&yStart={yStart:int}&xEnd={xEnd:int}&yEnd={yEnd:int} application/zip
+	// POST /merge?image={number:int}
+	// 		&imgXStart={imgXStart:int}&imgYStart={imgYStart:int}&imgXEnd={imgXEnd:int}&imgYEnd={imgYEnd:int} 
+	//		&googleXStart={googleXStart:int}&googleYStart={googleYStart:int}&googleXEnd={googleXEnd:int}&googleYEnd={googleYEnd:int}
+	//		application/zip
 	/**
 	 * Give the merge image with google result.
 	 * 
-	 * @param number   The number of the requested image
-	 * @param xStart   The X start coordinate
-	 * @param xEnd     The X end coordinate
-	 * @param yStart   The y start coordinate
-	 * @param yEnd     The y end coordinate
-	 * @param selected The selected file from google results
+	 * @param number    The number of the requested image
+	 * @param imgXStart The X start coordinate for source image
+	 * @param imgXEnd   The X end coordinate for source image
+	 * @param imgYStart The y start coordinate for source image
+	 * @param imgYEnd   The y end coordinate for source image
+	 * @param googleXStart The X start coordinate for google image
+	 * @param googleXEnd   The X end coordinate for google image
+	 * @param googleYStart The y start coordinate for google image
+	 * @param googleYEnd   The y end coordinate for google image
+	 * @param googleSelectedImage The selected file from google results
 	 * 
 	 * @return The merge file with the google result
 	 */
 	@POST
+	@Path("merge")
 	@Produces("image/jpeg")
 	public final File merge(@QueryParam("number") String number,
-			@QueryParam("xStart") String xStart,
-			@QueryParam("xEnd") String xEnd,
-			@QueryParam("yStart") String yStart,
-			@QueryParam("yEnd") String yEnd,
-			Attachment selected) {
+			@QueryParam("imgXStart") String imgXStart,
+			@QueryParam("imgXEnd") String imgXEnd,
+			@QueryParam("imgYStart") String imgYStart,
+			@QueryParam("imgYEnd") String imgYEnd,
+			@QueryParam("googleXStart") String googleXStart,
+			@QueryParam("googleXEnd") String googleXEnd,
+			@QueryParam("googleYStart") String googleYStart,
+			@QueryParam("googleYEnd") String googleYEnd,
+			Attachment googleSelectedImage) {
 		File image = getImage(number);
+		File google = null; // retrieve from attachment
 		
-		Crop crop = new Crop(
-				Integer.parseInt(xStart),
-				Integer.parseInt(yStart),
-				Integer.parseInt(xEnd) - Integer.parseInt(xStart),
-				Integer.parseInt(yEnd) - Integer.parseInt(yStart));
+		Crop imageCrop = new Crop(
+				Integer.parseInt(imgXStart),
+				Integer.parseInt(imgYStart),
+				Integer.parseInt(imgXEnd) - Integer.parseInt(imgXStart),
+				Integer.parseInt(imgYEnd) - Integer.parseInt(imgYStart));
+		Crop googleCrop = new Crop(
+				Integer.parseInt(googleXStart),
+				Integer.parseInt(googleYStart),
+				Integer.parseInt(googleXEnd) - Integer.parseInt(googleXStart),
+				Integer.parseInt(googleYEnd) - Integer.parseInt(googleYStart));
 		
-		return null;
+		File merged = imageProcessing.postProcessing(image, imageCrop, google, googleCrop);
+		
+		return merged;
 	}
 }
