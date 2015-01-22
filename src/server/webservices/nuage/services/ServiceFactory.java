@@ -57,7 +57,7 @@ public class ServiceFactory {
 			servicesContainer.put(
 					ServicesCollection.CatalogFactory, 
 					new CatalogFactory(Config.IMAGES_PATH, 
-										Config.HOST + "nuages/?number=", 
+										Config.HOST + "nuage/images/?number=", 
 										createFileHandler()));
 		}
 		
