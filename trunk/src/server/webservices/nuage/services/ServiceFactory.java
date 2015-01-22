@@ -1,11 +1,8 @@
 package server.webservices.nuage.services;
 
-import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import server.imageprocessing.Crop;
 import server.imageprocessing.IImageProcessing;
 import server.webservices.Config;
 import server.webservices.google.GoogleSearchClient;
@@ -20,27 +17,26 @@ import server.webservices.nuage.NuageService;
 public class ServiceFactory {
 	
 	/**
-	 * Container to hold services in order to avoid multiple instances
+	 * Container to hold services in order to avoid multiple instances.
 	 */
 	private static Map<ServicesCollection, Object> servicesContainer;
 	
 	/**
-	 * List of services available
+	 * List of services available.
 	 */
 	private enum ServicesCollection {
 		FileHandler,
 		CatalogFactory,
 		ImageProcessing,
 		GoogleSearchClient
-	};
+	}
 	
 	public ServiceFactory() {
 		servicesContainer = new HashMap<>();
 	}
 	
-
 	/**
-	 * Helper to instantiate NuageService service
+	 * Helper to instantiate NuageService service.
 	 *  
 	 * @return The instantiated service
 	 */
@@ -52,7 +48,7 @@ public class ServiceFactory {
 	}
 
 	/**
-	 * Helper to instantiate CatalogFactory service
+	 * Helper to instantiate CatalogFactory service.
 	 *  
 	 * @return The instantiated service
 	 */
@@ -69,7 +65,7 @@ public class ServiceFactory {
 	}
 
 	/**
-	 * Helper to instantiate FileHandler service
+	 * Helper to instantiate FileHandler service.
 	 *  
 	 * @return The instantiated service
 	 */
@@ -84,7 +80,7 @@ public class ServiceFactory {
 	}
 	
 	/**
-	 * Helper to instantiate GoogleSearchClient service
+	 * Helper to instantiate GoogleSearchClient service.
 	 *  
 	 * @return The instantiated service
 	 */
@@ -99,7 +95,7 @@ public class ServiceFactory {
 	}
 	
 	/**
-	 * Helper to instantiate ImageProcessing service
+	 * Helper to instantiate ImageProcessing service.
 	 *  
 	 * @return The instantiated service
 	 */
