@@ -31,8 +31,8 @@ public final class FileHandler implements IFileHandler {
 	public List<String> scanDir(String path) {
 		List<String> imagesPath = new ArrayList<>();
 		
-		File repertoire = new File(path);
-		File[] files = repertoire.listFiles(jpegFileFilter);
+		File dir = new File(path);
+		File[] files = dir.listFiles(jpegFileFilter);
 		
 		for (File image : files) {
 			imagesPath.add(image.getAbsolutePath());
