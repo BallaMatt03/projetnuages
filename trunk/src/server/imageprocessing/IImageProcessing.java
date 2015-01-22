@@ -24,5 +24,18 @@ public interface IImageProcessing  {
      * @param google The results from google
      * @return  The processed images
      */
-    List<File> postProcessing(File image, Crop crop, List<File> google);
+    /**
+     * 
+     * @param image
+     * 				Full image
+     * @param crop
+     * 				Coordinates of the crop
+     * @param google
+     * 				The results from google
+     * @param cropGoogle
+     * 				Coordinates of the crop for google image
+     * @return
+     * 				The processed images
+     */
+    File postProcessing(File image, Crop crop, File google, Crop cropGoogle);
 }
