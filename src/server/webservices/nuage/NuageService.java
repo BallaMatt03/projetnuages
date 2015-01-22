@@ -14,9 +14,10 @@ import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
 import server.imageprocessing.Crop;
 import server.imageprocessing.IImageProcessing;
+import server.webservices.Config;
 import server.webservices.nuage.model.Catalog;
-import server.webservices.nuage.services.CatalogFactory;
-import server.webservices.nuage.services.FileHandler;
+import server.webservices.nuage.services.ICatalogFactory;
+import server.webservices.nuage.services.IFileHandler;
 
 /**
  * Ressources avalaible on the nuage webservice.
@@ -32,12 +33,29 @@ public class NuageService {
 	private IImageProcessing imageProcessing;
 	
 	/**
+	 * A helper service to handle files and dir
+	 */
+	private IFileHandler fileHandler;
+	
+	/**
+	 * A helper service to create the catalog
+	 */
+	private ICatalogFactory catalogFactory;
+	
+	/**
 	 * Default constructor.
 	 * 
 	 * @param imageProcessing The image processing service to be used
+	 * @param fileHandler     A helper service to handle files and dir
+	 * @param catalogFactory  A helper service to create the catalog
 	 */
-	public NuageService(IImageProcessing imageProcessing) {
+	public NuageService(IImageProcessing imageProcessing,
+			IFileHandler fileHandler,
+			ICatalogFactory catalogFactory) {
+		
 		this.imageProcessing = imageProcessing;
+		this.fileHandler = fileHandler;
+		this.catalogFactory = catalogFactory;
 	}
 	
 	// GET /images application/xml
@@ -49,7 +67,7 @@ public class NuageService {
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
 	public final Catalog getCatalogue() {
-		return CatalogFactory.createCatalog(Config.IMAGES_PATH);
+		return catalogFactory.createCatalog();
 	}
 	
 	// GET /images?number={number:int} image/jpeg
@@ -63,9 +81,9 @@ public class NuageService {
 	@GET
 	@Produces("image/jpeg")
 	public final File getImage(@QueryParam("number") String number) {
-		List<String> imagesPath = FileHandler.scanDir(Config.IMAGES_PATH);
+		List<String> imagesPath = fileHandler.scanDir(Config.IMAGES_PATH);
 		
-		File image = FileHandler.loadFile(imagesPath.get(Integer.parseInt(number)));
+		File image = fileHandler.loadFile(imagesPath.get(Integer.parseInt(number)));
 		
 		return image;
 	}
