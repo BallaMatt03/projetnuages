@@ -107,20 +107,7 @@ public class ServiceFactory {
 		if (!servicesContainer.containsKey(ServicesCollection.ImageProcessing)) {
 			servicesContainer.put(
 					ServicesCollection.ImageProcessing, 
-					new IImageProcessing() {
-						
-						@Override
-						public File preProcessing(File image, Crop crop) {
-							// TODO Auto-generated method stub
-							return null;
-						}
-						
-						@Override
-						public List<File> postProcessing(File image, Crop crop, List<File> google) {
-							// TODO Auto-generated method stub
-							return null;
-						}
-					});
+					null);
 		}
 		
 		return (IImageProcessing) servicesContainer.get(ServicesCollection.ImageProcessing);
