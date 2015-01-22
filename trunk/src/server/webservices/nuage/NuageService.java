@@ -66,7 +66,7 @@ public class NuageService {
 	 */
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
-	public final Catalog getCatalogue() {
+	public final Catalog getCatalog() {
 		return catalogFactory.createCatalog();
 	}
 	
