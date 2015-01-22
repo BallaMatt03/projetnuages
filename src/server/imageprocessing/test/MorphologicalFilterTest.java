@@ -39,11 +39,17 @@ public final class MorphologicalFilterTest {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		Image i = ImageIO.read(new File("C:/Users/fabie_000/Desktop/nuages/nuages_means.jpeg"));
+		File directorySource = new File("./pictures/results/morphologicalFilter/sources/");
 		
-		BufferedImage buffImage =  MorphologicalFilter.closing((BufferedImage) i, SIX);
-		
-		File o = new File("C:/Users/fabie_000/Desktop/nuages/nuages_morpho.jpg");
-		ImageIO.write(buffImage, "jpg", o);	
+		for(String s : directorySource.list()) {
+			
+			Image i = ImageIO.read(new File("./pictures/results/morphologicalFilter/sources/" + s));
+
+			File opening = new File("./pictures/results/morphologicalFilter/results/opening/" + s.split("\\.")[0] + "_opening.jpg");
+			ImageIO.write(MorphologicalFilter.opening((BufferedImage) i, SIX), "jpg", opening);	
+			
+			File closing = new File("./pictures/results/morphologicalFilter/results/closing/" + s.split("\\.")[0] + "_closing.jpg");
+			ImageIO.write(MorphologicalFilter.closing((BufferedImage) i, SIX), "jpg", closing);	
+		}
 	}
 }
