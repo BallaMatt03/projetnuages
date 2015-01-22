@@ -1,4 +1,4 @@
-package server.webservices.nuage;
+package server.webservices;
 
 /**
  * Class to contain all config variable.

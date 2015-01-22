@@ -10,32 +10,25 @@ import java.util.List;
  * 
  * @author Cedric Boulet Kessler
  */
-public final class FileHandler {
+public final class FileHandler implements IFileHandler {
 	
 	/**
 	 * Default constructor.
 	 */
-	private FileHandler() { }
+	public FileHandler() { }
 	
-	/**
-	 * Load the file at the given path.
-	 * 
-	 * @param path The path to load the file
-	 * 
-	 * @return The loaded file
+	/* (non-Javadoc)
+	 * @see server.webservices.nuage.services.IFileHandler#loadFile()
 	 */
-	public static File loadFile(String path) {
+	@Override
+	public File loadFile(String path) {
 		return new File(path);
 	}
 	
-	/**
-	 * Scan the given directory to find all images.
-	 * 
-	 * @param path The path to the directory to scan
-	 * 
-	 * @return The absolute path of all images
+	/* (non-Javadoc)
+	 * @see server.webservices.nuage.services.IFileHandler#scanDir()
 	 */
-	public static List<String> scanDir(String path) {
+	public List<String> scanDir(String path) {
 		List<String> imagesPath = new ArrayList<>();
 		
 		File repertoire = new File(path);
