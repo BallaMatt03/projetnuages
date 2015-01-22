@@ -1,5 +1,6 @@
 package server.webservices.nuage;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import server.imageprocessing.Crop;
 import server.imageprocessing.IImageProcessing;
 import server.webservices.Config;
+import server.webservices.google.IGoogleSearchClient;
 import server.webservices.nuage.model.Catalog;
 import server.webservices.nuage.services.ICatalogFactory;
 import server.webservices.nuage.services.IFileHandler;
@@ -43,19 +45,27 @@ public class NuageService {
 	private ICatalogFactory catalogFactory;
 	
 	/**
+	 * A helper service to handle google custom search
+	 */
+	private IGoogleSearchClient googleSearchClient;
+	
+	/**
 	 * Default constructor.
 	 * 
-	 * @param imageProcessing The image processing service to be used
-	 * @param fileHandler     A helper service to handle files and dir
-	 * @param catalogFactory  A helper service to create the catalog
+	 * @param imageProcessing    The image processing service to be used
+	 * @param fileHandler        A helper service to handle files and dir
+	 * @param catalogFactory     A helper service to create the catalog
+	 * @param googleSearchClient A helper service to handle google custom search
 	 */
 	public NuageService(IImageProcessing imageProcessing,
 			IFileHandler fileHandler,
-			ICatalogFactory catalogFactory) {
+			ICatalogFactory catalogFactory,
+			IGoogleSearchClient googleSearchClient) {
 		
 		this.imageProcessing = imageProcessing;
 		this.fileHandler = fileHandler;
 		this.catalogFactory = catalogFactory;
+		this.googleSearchClient = googleSearchClient;
 	}
 	
 	// GET /images application/xml
@@ -99,7 +109,12 @@ public class NuageService {
 	@GET
 	@Produces("application/zip")
 	public final File findShapes(@QueryParam("keyword") String keyword) {
-		return null;
+		
+		List<BufferedImage> images = googleSearchClient.getImagesFromKeyword(keyword);
+		
+		File zip = null;// zip the file
+		
+		return zip;
 	}
 	
 	// POST /merge?image={number:int}&xStart={xStart:int}&yStart={yStart:int}&xEnd={xEnd:int}&yEnd={yEnd:int} application/zip

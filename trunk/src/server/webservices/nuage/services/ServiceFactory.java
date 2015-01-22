@@ -8,6 +8,8 @@ import java.util.Map;
 import server.imageprocessing.Crop;
 import server.imageprocessing.IImageProcessing;
 import server.webservices.Config;
+import server.webservices.google.GoogleSearchClient;
+import server.webservices.google.IGoogleSearchClient;
 import server.webservices.nuage.NuageService;
 
 /**
@@ -29,7 +31,7 @@ public class ServiceFactory {
 		FileHandler,
 		CatalogFactory,
 		ImageProcessing,
-		GoogleClient
+		GoogleSearchClient
 	};
 	
 	public ServiceFactory() {
@@ -43,7 +45,10 @@ public class ServiceFactory {
 	 * @return The instantiated service
 	 */
 	public NuageService createNuageService() {
-		return new NuageService(createImageProcessing(), createFileHandler(), createCatalogFactory());
+		return new NuageService(createImageProcessing(), 
+				createFileHandler(), 
+				createCatalogFactory(),
+				createGoogleSearchClient());
 	}
 
 	/**
@@ -76,6 +81,21 @@ public class ServiceFactory {
 		}
 		
 		return (IFileHandler) servicesContainer.get(ServicesCollection.FileHandler);
+	}
+	
+	/**
+	 * Helper to instantiate GoogleSearchClient service
+	 *  
+	 * @return The instantiated service
+	 */
+	public IGoogleSearchClient createGoogleSearchClient() {
+		if (!servicesContainer.containsKey(ServicesCollection.GoogleSearchClient)) {
+			servicesContainer.put(
+					ServicesCollection.GoogleSearchClient, 
+					new GoogleSearchClient());
+		}
+		
+		return (IGoogleSearchClient) servicesContainer.get(ServicesCollection.GoogleSearchClient);
 	}
 	
 	/**
