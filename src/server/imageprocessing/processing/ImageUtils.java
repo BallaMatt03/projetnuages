@@ -1,6 +1,7 @@
 package server.imageprocessing.processing;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -63,37 +64,25 @@ public final class ImageUtils {
 				pCrop.getHeight());
 	}
 	
-	/**
-	 * 
-	 * @param imageSource 
-	 * 			source image
-	 * @param precision
-	 * 		 	coeff. of erode
-	 * @return 
-	 * 			image
-	 */
-	public static Image contourDetection(final BufferedImage imageSource, final int precision) {
-		
-		BufferedImage test = MorphologicalFilter.erose(imageSource, precision);
-		BufferedImage erodePicture = test;
-		BufferedImage src = imageSource;
-		BufferedImage result = new BufferedImage(imageSource.getWidth(null), imageSource.getHeight(null), BufferedImage.TYPE_BYTE_BINARY);
-
-		/*
-		try {
-			saveImageAsJPEG(erodePicture, new FileOutputStream("./resulerodet.jpg"), 100);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
-		
-		for (int i = 0; i < erodePicture.getWidth(null); i++) {
-			for (int j = 0; j < erodePicture.getHeight(null); j++) {
-				result.setRGB(i, j , src.getRGB(i ,  j) * src.getRGB(i,  j));
-			}
-		}
-		return result;
+	
+	public static BufferedImage rotate(BufferedImage image, double angle) {
+	    double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+	    int w = image.getWidth(), h = image.getHeight();
+	    int neww = (int)Math.floor(w*cos+h*sin), newh = (int)Math.floor(h*cos+w*sin);
+	    
+	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+        GraphicsConfiguration[] gc = defaultScreen.getConfigurations();
+	    
+	    BufferedImage result = gc[0].createCompatibleImage(neww, newh);
+	    Graphics2D g = result.createGraphics();
+	    g.translate((neww-w)/2, (newh-h)/2);
+	    g.rotate(angle, w/2, h/2);
+	    g.drawRenderedImage(image, null);
+	    g.dispose();
+	    return result;
 	}
+	
 	
 	/**
 	 * Convert Image to BufferedImage.

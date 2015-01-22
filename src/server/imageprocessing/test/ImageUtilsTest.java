@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import server.imageprocessing.Crop;
+import server.imageprocessing.processing.ContourDetection;
 import server.imageprocessing.processing.ImageUtils;
 
 public class ImageUtilsTest {
@@ -20,8 +21,9 @@ public class ImageUtilsTest {
 		//Test Contour detection
 		BufferedImage result = null;
 		try {
-			result = (BufferedImage) ImageUtils.contourDetection(ImageIO.read(new File("./GoodPacman.jpg")), 3);
-			ImageUtils.saveImageAsJPEG(result,  new FileOutputStream("./result.jpg"), 100);
+			result = ContourDetection.eroseDetection(ImageIO.read(new File("./pictures/source/pacman2.jpg")), 4);
+			result = ImageUtils.rotate(result, 45);
+			ImageUtils.saveImageAsJPEG(result,  new FileOutputStream("./pictures/results/imageUtils/result.jpg"), 100);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -29,8 +31,8 @@ public class ImageUtilsTest {
 		//Test cut Image
 		try {
 			ImageUtils.saveImageAsJPEG(
-					ImageUtils.cut(ImageIO.read(new File("./GoodPacman.jpg")), new Crop(20, 20, 100, 100)),
-					new FileOutputStream("./resultCut.jpg"), 100);
+					ImageUtils.cut(ImageIO.read(new File("./pictures/source/pacman2.jpg")), new Crop(20, 20, 100, 100)),
+					new FileOutputStream("./pictures/results/imageUtils/resultCut.jpg"), 100);
 		} catch (IllegalArgumentException | IOException e) {
 			e.printStackTrace();
 		}
