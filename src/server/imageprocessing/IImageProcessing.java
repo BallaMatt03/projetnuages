@@ -19,13 +19,6 @@ public interface IImageProcessing  {
 
     /**
      * 
-     * @param image Full image
-     * @param crop Coordinates of the crop
-     * @param google The results from google
-     * @return  The processed images
-     */
-    /**
-     * 
      * @param image
      * 				Full image
      * @param crop
