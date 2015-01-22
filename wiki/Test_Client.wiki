@@ -1,1 +1,1 @@
-= Gui documentation =
+= GUI documentation =
