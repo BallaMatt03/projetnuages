@@ -25,7 +25,7 @@
     </module>
     <module name="LineLength">
       <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-      <property name="max" value="100"/>
+      <property name="max" value="120"/>
     </module>
     <module name="AvoidStarImport"/>
     <module name="OneTopLevelClass"/>
@@ -110,6 +110,7 @@
       <property name="basicOffset" value="2"/>
       <property name="caseIndent" value="2"/>
       <property name="arrayInitIndent" value="2"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
     <module name="AbbreviationAsWordInName">
       <property name="allowedAbbreviationLength" value="1"/>
@@ -136,7 +137,10 @@
       <property name="allowSamelineMultipleAnnotations" value="true"/>
     </module>
     <module name="NonEmptyAtclauseDescription"/>
-    <module name="JavadocTagContinuationIndentation"/>
+    <module name="JavadocTagContinuationIndentation">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="SummaryJavadocCheck"/>
     <module name="JavadocParagraph"/>
     <module name="AtclauseOrder">
@@ -158,6 +162,7 @@
       <message key="name.invalidPattern" value="Method name ''{0}'' must match pattern ''{1}''."/>
     </module>
     <module name="SingleLineJavadoc"/>
+    <module name="LeftCurly"/>
   </module>
   <module name="FileTabCharacter">
     <property name="severity" value="ignore"/>
