@@ -47,9 +47,9 @@ public final class ImageUtils {
 	 * @throws IllegalArgumentException 
 	 * 			if the Crop.height or Crop.Widht is null.
 	 */
-	public static Image cut(final Image srcImage, final Crop pCrop) 
+	public static BufferedImage cut(final BufferedImage srcImage, final Crop pCrop) 
 			throws IllegalArgumentException {
-		BufferedImage temp = toBufferedImage(srcImage);
+		BufferedImage temp = srcImage;
 		
 		if (pCrop.getHeight() == 0 || pCrop.getWidth() == 0) {
 			throw new IllegalArgumentException("Les dimensions"
@@ -72,11 +72,11 @@ public final class ImageUtils {
 	 * @return 
 	 * 			image
 	 */
-	public static Image contourDetection(final Image imageSource, final int precision) {
+	public static Image contourDetection(final BufferedImage imageSource, final int precision) {
 		
-		Image test = MorphologicalFilter.erose(imageSource, precision);
-		BufferedImage erodePicture = toBufferedImage(test);
-		BufferedImage src = toBufferedImage(imageSource);
+		BufferedImage test = MorphologicalFilter.erose(imageSource, precision);
+		BufferedImage erodePicture = test;
+		BufferedImage src = imageSource;
 		BufferedImage result = new BufferedImage(imageSource.getWidth(null), imageSource.getHeight(null), BufferedImage.TYPE_BYTE_BINARY);
 
 		/*
