@@ -1,156 +1,219 @@
 package server.imageprocessing.processing;
+
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorConvertOp;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 public class Kmeans {
+    BufferedImage imageTemp;
+    boolean notTerminated;
+    int loops;
+    int changedPixels;
+    int[] histogram;
+    static int count = 0;
+    int[] lowerbounds = new int[3];
+    static int g = 0;
+    int[] lb = new int[3];
+    int[] ub = new int[3];
+    int[] mean = new int[3];
+    BufferedImage imaged;
+    BufferedImage thresholdimage;
+    BufferedImage dilateimage;
 
+    /**
+     * ..
+     * @param args
+     * ..
+     * @throws IOException
+     * ..
+     */
 	public static void main(String[] args) throws IOException {
-		Image monImage = ImageIO.read(new File("./images/coeur.jpg"));
-		BufferedImage bIm = (BufferedImage) monImage;
-		BufferedImage means = new BufferedImage(bIm.getWidth(), bIm.getHeight(), bIm.getType());
-		Kmeans kmeans = new Kmeans(bIm,means);
 		
-		// Enregistrement d'image
-		BufferedImage bMeans = kmeans.getMeans();
-        ImageIO.write(bMeans, "jpg",new File("./images/kmeans.jpg"));
-        System.out.println("fin");
-	}
-	
-	int nn,mm, kk;
-	int[][] data;
-	int[][] means;
-	int assign[];
-	int count[];
-	
-	public Kmeans() {
-		super();
-		// TODO Auto-generated constructor stub
+		Image img = ImageIO.read(new File("./pictures/sources/coeur_nuage.jpg"));
+		int[] histograms = new int[256];
+		@SuppressWarnings("unused")
+		Kmeans kmeans = new Kmeans((BufferedImage)img,3,histograms);
+		
 		
 	}
-	
-	public Kmeans(BufferedImage ddata, BufferedImage mmeans) {
-		
-		Init(ddata, mmeans);
-		
-		//int step = 100;
-		int n = estep();
-		mstep();
-		while (n!=0){
-			n = estep();
-			mstep();
-			System.out.println(n);
-		}
-	}
-	
-	public void Init(BufferedImage ddata, BufferedImage mmeans) {
-		nn = ddata.getHeight();
-		mm = ddata.getWidth();
-		
-		System.out.println(nn + " " + mm);
-		kk = mmeans.getHeight();
-		
-		// Convertit l'image en NG
-		ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
-		BufferedImage imGray = op.filter(ddata,null);
-		data = convertBufferedImageToTab(imGray);
-		
-		means = convertBufferedImageToTab(mmeans);
-		assign = new int[nn];
-		count = new int[kk];
-	}
-	
-	public int[][] convertBufferedImageToTab(BufferedImage im) {
-        int nbRows = im.getHeight();
-        int nbCols = im.getWidth();
-        int[][] tab = new int[nbRows][nbCols];
-        for(int i = 0; i < nbRows; i++) {
-            for(int j = 0; j < nbCols; j++) {
-                Color pixelColor = new Color(im.getRGB(j, i));
-                tab[i][j] = pixelColor.getGreen();
+
+	/**
+	 * ..
+	 * @param image
+	 * ..
+	 * @param bins
+	 * ..
+	 * @param histogram
+	 * ..
+	 * @throws IOException
+	 * ..
+	 */
+    public Kmeans(BufferedImage image, int bins, int[] histogram)
+            throws IOException {
+        this.histogram = histogram;
+        initialize(image, bins);
+        calcbounds();
+
+        // / calculateMean(histogram);
+        processImage(image, bins);
+        imaged = returnimage();
+        imageWrite();
+        for (int j = 0; j < 3; j++) {
+            System.out.println("LB" + j + "=" + lb[j] + " UB" + j + "=" + ub[j]
+                    + " Means" + j + "=" + mean[j]);
+        }
+    }
+
+    /**
+     * ..
+     * @param image
+     * ..
+     * @param bins
+     * ..
+     */
+    public void initialize(BufferedImage image, int bins) {
+        imageTemp = image;
+        notTerminated = true;
+        mean[0] = 173;
+        mean[1] = 100;
+        mean[2] = 112;
+    }
+
+    /**
+     * ..
+     * @param image
+     * ..
+     * @param index
+     * ..
+     * @param bins
+     * ..
+     * @return
+     * ..
+     */
+    public int createmean(BufferedImage image, int index, int bins) {
+        int pixelindex = 0;
+        int sum = 0;
+        int value = 0;
+        for (int h = 0; h < image.getHeight(); h++) {
+            for (int w = 0; w < image.getWidth(); w++) {
+                try {
+                    pixelindex += 1;
+                    if (pixelindex % bins == index) {
+                        Color rgb = new Color(image.getRGB(w, h));
+                        sum += rgb.getRed();
+                        value += 1;
+                        count++;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
-        return tab;
-	}
-	
-	int estep() {
-		int k, m, n, kmin = 0;
-		double dmin, d;
-		int nchg = 0;
-		
-		
-		for(k=0;k<kk;k++) { count[k] = 0; }
+        return sum / value;
 
-		for(n=0;n<nn;n++) { 
-			dmin = 9.99e99;
+    }
 
-			for(k=0;k<kk;k++) { 
-				for (d=0.,m=0; m<mm; m++) { 
-			        int gData = data[n][m];
-			        int gMeans = means[k][m];
-			        
-					//d += (gData-gMeans)*(gData-gMeans);
-			        d += gData*gData - gMeans*gMeans;
-				}
-				
-				System.out.println("d<dmin");
-				if (d < dmin) { 
-					dmin = d;
-					kmin = k;
-					System.out.println("d<dmin ok");
-				}
-			}
-			if (kmin != assign[n]) { nchg++; }
-			assign[n] = kmin;
-			count[kmin]++;
-		}
-		return nchg;
-	}
-	
-	void mstep() {
-		int n,k,m;
-		
-		for (k=0;k<kk;k++) {
-			for (m=0;m<mm;m++) {
-		        means[k][m] = 0;
-			}
-		}
-		
-		for (n=0;n<nn;n++) {
-			System.out.println("assign["+ n + "] = " + assign[n]);
-			for (m=0;m<mm;m++) {
-		        means[assign[n]][m] += data[n][m];
-			}
-		}
-		
-		for (k=0;k<kk;k++) {
-			if (count[k] > 0) {
-				for (m=0;m<mm;m++) { 
-					means[k][m] /= count[k];
-				}
-			}
-		}
-	}
+    /**
+     * ..
+     */
+    public void calcbounds() {
+        for (int j = 0; j < 3; j++) {
+            int lb1 = calculatelb(j);
+            int ub1 = calculateub(j);
+            lowerbounds[j] = lb1;
+            lb[j] = lb1;
+            ub[j] = ub1;
+        }
 
-	public BufferedImage getMeans() {
-		int nbRowsCenters = means.length;
-        int nbColsCenters = means[0].length;
-		BufferedImage bwMeans = new BufferedImage(nbColsCenters, nbRowsCenters, BufferedImage.TYPE_INT_RGB);
-		for(int i = 0; i < nbRowsCenters; i++) {
-            for(int j = 0; j < nbColsCenters; j++) {
-            	int v = (int)means[i][j];
-            	int rgb = new Color(v,v,v).getRGB();
-            	bwMeans.setRGB(j,i, rgb);
+    }
+
+    /**
+     * ..
+     * @param index
+     * ..
+     * @return
+     * ..
+     */
+    private int calculatelb(int index) {
+        int cmean = mean[index];
+        int currentBound = 0;
+        for (int i = 0; i < 3; i++) {
+            if (cmean > mean[i]) {
+                currentBound = Math.max((cmean + mean[i]) / 2, currentBound);
             }
         }
-		return bwMeans;
-	}
-	
+        return currentBound;
+    }
+
+    /**
+     * ..
+     * @param index
+     * ..
+     * @return
+     * ..
+     */
+    private int calculateub(int index) {
+        int cmean = mean[index];
+        int currentBound = 255;
+        for (int i = 0; i < 3; i++) {
+            if (cmean < mean[i]) {
+                currentBound = Math.min((cmean + mean[i]) / 2, currentBound);
+            }
+        }
+        return currentBound;
+    }
+
+    /**
+     * ..
+     * @param image
+     * ..
+     * @param bins
+     * ..
+     */
+    private void processImage(BufferedImage image, int bins) {
+        int delta = 255 / (bins - 1);
+
+        for (int h = 0; h < image.getHeight(); h++) {
+            for (int w = 0; w < image.getWidth(); w++) {
+            	
+                Color rgb = new Color(image.getRGB(w, h));
+                int grey = rgb.getRed();
+
+                for (int i = 0; i < 3; i++) {
+                    if (grey > lb[i] && grey < ub[i]) {
+                        g = i * delta;
+                        imageTemp.setRGB(w, h, (new Color(g, g, g)).getRGB());
+                    } else {
+                        imageTemp.setRGB(w, h, (new Color(g, g, g)).getRGB());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * ..
+     * @return
+     * ..
+     */
+    public BufferedImage returnimage() {
+        return imageTemp;
+    }
+
+    /**
+     * ..
+     * @throws IOException
+     * ..
+     */
+    public void imageWrite() throws IOException {
+        // BufferedImage img1=image_temp;
+        ImageIO.write(imaged, "jpg", new File("output.jpg"));
+        System.out.println("image write completed");
+    }
+
+
 }
-	

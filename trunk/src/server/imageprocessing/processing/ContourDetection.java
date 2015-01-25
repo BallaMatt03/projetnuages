@@ -1,18 +1,17 @@
-/**
- * 
- */
+
 package server.imageprocessing.processing;
 
 import java.awt.image.BufferedImage;
 
 /**
+ * ..
  * @author Thomas
  *
  */
 public final class ContourDetection {
 
 	/**
-	 * 
+	 * ..
 	 */
 	private ContourDetection() {}
 	
