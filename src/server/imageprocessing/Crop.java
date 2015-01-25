@@ -1,6 +1,7 @@
 package server.imageprocessing;
 
 /**
+ * ..
  * @author Thomas
  *
  */
@@ -36,9 +37,9 @@ public class Crop {
 	
 	/**
 	 * Constructor.
-	 * @param x 
+	 * @param xcoord 
 	 * 				x
-	 * @param y 
+	 * @param ycoord 
 	 * 				y
 	 * @param pwidth
 	 * 				width
@@ -47,19 +48,32 @@ public class Crop {
 	 * @param pangle
 	 * 				angle of rotation
 	 */
-	public Crop(final int x, final int y, final int pwidth, final int pheight) {
-		this(x, y, pwidth, pheight, 0);
+	public Crop(final int xcoord, final int ycoord, final int pwidth, final int pheight) {
+		this(xcoord, ycoord, pwidth, pheight, 0);
 	}
-	
-	public Crop(final int x, final int y, final int pwidth, final int pheight, double pangle) {
-		this.startX = x;
-		this.startY = y;
+	/**
+	 * ..
+	 * @param xcoord
+	 * ..
+	 * @param ycoord
+	 * ..
+	 * @param pwidth
+	 * ..
+	 * @param pheight
+	 * ..
+	 * @param pangle
+	 * ..
+	 */
+	public Crop(final int xcoord, final int ycoord, final int pwidth, final int pheight, double pangle) {
+		this.startX = xcoord;
+		this.startY = ycoord;
 		this.height = pheight;
 		this.width = pwidth;
 		this.angle = pangle;
 	}
 		
 	/**
+	 * ..
 	 * @return the startX
 	 */
 	public final int getStartX() {
@@ -67,6 +81,7 @@ public class Crop {
 	}
 
 	/**
+	 * ..
 	 * @param 
 	 * 			pstartX the startX to set.
 	 */
@@ -75,6 +90,7 @@ public class Crop {
 	}
 
 	/**
+	 * ..
 	 * @return 
 	 * 			the startY
 	 */
@@ -83,6 +99,7 @@ public class Crop {
 	}
 
 	/**
+	 * ..
 	 * @param 
 	 * 			pstartY the startY to set.
 	 */
@@ -91,6 +108,7 @@ public class Crop {
 	}
 
 	/**
+	 * ..
 	 * @return 
 	 * 			the width
 	 */
@@ -99,6 +117,7 @@ public class Crop {
 	}
 
 	/**
+	 * ..
 	 * @param 
 	 * 			pwidth the width to set
 	 */
@@ -107,6 +126,7 @@ public class Crop {
 	}
 
 	/**
+	 * ..
 	 * @return 
 	 * 			the height
 	 */
@@ -115,6 +135,7 @@ public class Crop {
 	}
 
 	/**
+	 * ..
 	 * @param 
 	 * 			pheight the height to set
 	 */
@@ -123,6 +144,7 @@ public class Crop {
 	}
 	
 	/**
+	 * ..
 	 * @return 
 	 * 			the angle
 	 */
@@ -131,6 +153,7 @@ public class Crop {
 	}
 
 	/**
+	 * ..
 	 * @param 
 	 * 			angle the angle to set
 	 */

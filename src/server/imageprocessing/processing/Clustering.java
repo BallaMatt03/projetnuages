@@ -1,19 +1,17 @@
-/**
- * 
- */
+
 package server.imageprocessing.processing;
 
 import java.awt.Image;
 
 /**
+ * ..
+ * 
  * @author Thomas
  *
  */
 public final class Clustering {
 
-	/**
-	 * 
-	 */
+	
 	private Clustering() {
 		// TODO Auto-generated constructor stub
 	}

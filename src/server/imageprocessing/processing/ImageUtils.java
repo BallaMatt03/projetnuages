@@ -1,5 +1,7 @@
 package server.imageprocessing.processing;
 
+import server.imageprocessing.Crop;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -23,10 +25,10 @@ import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.ImageIcon;
 
-import server.imageprocessing.Crop;
 
 
 /**
+ * ..
  * @author Thomas, Vaïk
  *
  */
@@ -41,45 +43,56 @@ public final class ImageUtils {
 	 * Get subimage.
 	 * @param srcImage
 	 * 			source Image
-	 * @param pCrop
+	 * @param pcrop
 	 * 			position of subImage
 	 * @return 
 	 * 			subimage
 	 * @throws IllegalArgumentException 
 	 * 			if the Crop.height or Crop.Widht is null.
 	 */
-	public static BufferedImage cut(final BufferedImage srcImage, final Crop pCrop) 
+	public static BufferedImage cut(final BufferedImage srcImage, final Crop pcrop) 
 			throws IllegalArgumentException {
 		BufferedImage temp = srcImage;
 		
-		if (pCrop.getHeight() == 0 || pCrop.getWidth() == 0) {
+		if (pcrop.getHeight() == 0 || pcrop.getWidth() == 0) {
 			throw new IllegalArgumentException("Les dimensions"
 					+ " doivent être supèrieurs à zéro!");
 		}
 		
 		return temp.getSubimage(
-				pCrop.getStartX(),
-				pCrop.getStartY(),
-				pCrop.getWidth(),
-				pCrop.getHeight());
+				pcrop.getStartX(),
+				pcrop.getStartY(),
+				pcrop.getWidth(),
+				pcrop.getHeight());
 	}
 	
-	
+	/**
+	 * ..
+	 * @param image
+	 * ..
+	 * @param angle
+	 * ..
+	 * @return
+	 * ..
+	 */
 	public static BufferedImage rotate(BufferedImage image, double angle) {
-	    double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
-	    int w = image.getWidth(), h = image.getHeight();
-	    int neww = (int)Math.floor(w*cos+h*sin), newh = (int)Math.floor(h*cos+w*sin);
+	    double sin = Math.abs(Math.sin(angle));
+	    double cos = Math.abs(Math.cos(angle));
+	    int width = image.getWidth();
+	    int height = image.getHeight();
+	    int neww = (int)Math.floor(width * cos + height * sin);
+	    int newh = (int)Math.floor(height * cos + width * sin);
 	    
 	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
         GraphicsConfiguration[] gc = defaultScreen.getConfigurations();
 	    
 	    BufferedImage result = gc[0].createCompatibleImage(neww, newh);
-	    Graphics2D g = result.createGraphics();
-	    g.translate((neww-w)/2, (newh-h)/2);
-	    g.rotate(angle, w/2, h/2);
-	    g.drawRenderedImage(image, null);
-	    g.dispose();
+	    Graphics2D graph = result.createGraphics();
+	    graph.translate((neww - width) / 2, (newh - height) / 2);
+	    graph.rotate(angle, width / 2, height / 2);
+	    graph.drawRenderedImage(image, null);
+	    graph.dispose();
 	    return result;
 	}
 	
@@ -136,11 +149,11 @@ public final class ImageUtils {
         }
 
         // Copy image to buffered image
-        Graphics g = bimage.createGraphics();
+        Graphics graph = bimage.createGraphics();
 
         // Paint the image onto the buffered image
-        g.drawImage(image, 0, 0, null);
-        g.dispose();
+        graph.drawImage(image, 0, 0, null);
+        graph.dispose();
 
         return bimage;
     }
@@ -189,14 +202,12 @@ public final class ImageUtils {
    * @throws IllegalArgumentException
    *             if qualityPercent not between 0 and 100
    */
-    public static void saveImageAsJPEG(BufferedImage image,
-		  OutputStream stream, int qualityPercent) throws IOException {
+    public static void saveimageasJpeg(BufferedImage image, OutputStream stream, int qualityPercent) throws IOException {
 			  
 			if ((qualityPercent < 0) || (qualityPercent > 100)) {
 			  throw new IllegalArgumentException("La valeur du paramètre qualityPercent est incorrect.");
 			}
 			
-			float quality = qualityPercent / 100f;
 			ImageWriter writer = null;
 			Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName("jpg");
 			if (iter.hasNext()) {
@@ -206,7 +217,7 @@ public final class ImageUtils {
 			writer.setOutput(ios);
 			ImageWriteParam iwparam = new JPEGImageWriteParam(Locale.getDefault());
 			iwparam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-			iwparam.setCompressionQuality(quality);
+			iwparam.setCompressionQuality(qualityPercent / 100f);
 			writer.write(null, new IIOImage(image, null, null), iwparam);
 			ios.flush();
 			writer.dispose();

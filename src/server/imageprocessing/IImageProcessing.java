@@ -1,16 +1,16 @@
 package server.imageprocessing;
 
 import java.io.File;
-import java.util.List;
 
 /**
+ * ..
  * @author Thomas
  *
  */
 public interface IImageProcessing  {
 
 	/**
-	 * 
+	 * ..
 	 * @param image Full image
 	 * @param crop Coordinates to crop
 	 * @return The processed crop part
@@ -18,7 +18,7 @@ public interface IImageProcessing  {
     File preProcessing(File image, Crop crop);
 
     /**
-     * 
+     * ..
      * @param image
      * 				Full image
      * @param crop
