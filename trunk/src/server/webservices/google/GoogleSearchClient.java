@@ -22,7 +22,7 @@ import javax.imageio.ImageIO;
  * Date: 1/16/15
  * Time: 04:29 PM (GMT + 1)
  */
-public class GoogleSearchClient {
+public class GoogleSearchClient implements IGoogleSearchClient {
 	//API Key
 	private final String API_KEY = "AIzaSyDFUA_c_fjpNmColiDWLjaggBWAQm47N5M";
 
