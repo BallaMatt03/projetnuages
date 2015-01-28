@@ -84,9 +84,12 @@ public class NuageServiceTests {
 		assertEquals("image1.jpeg", image.getName());
 	}
 	
+	/**
+	 * Test for checking the raise of a 404 Not Found exception
+	 */
 	@Test(expected = NotFoundException.class)
 	public void return404NotFound() {
-		// Arrage
+		// Arrange
 		NuageService nuage = new NuageService(
 				mock(IImageProcessing.class),
 				mock(IFileHandler.class),
