@@ -46,7 +46,7 @@ public final class FileHandler implements IFileHandler {
 	 */
 	private static FilenameFilter jpegFileFilter = new FilenameFilter() {
 		public boolean accept(File dir, String name) {
-			return name.endsWith(".jpeg");
+			return name.endsWith(".jpeg") || name.endsWith(".jpg");
 		}
 	};
 	
