@@ -20,6 +20,6 @@ public final class Config {
 	/**
 	 * The path where images are stored.
 	 */
-	public static final String IMAGES_PATH = "~/Pictures";
+	public static final String IMAGES_PATH = "pictures/sources";
 	
 }
