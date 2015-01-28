@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -15,7 +16,6 @@ import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
 import server.imageprocessing.Crop;
 import server.imageprocessing.IImageProcessing;
-import server.webservices.Config;
 import server.webservices.google.IGoogleSearchClient;
 import server.webservices.nuage.model.Catalog;
 import server.webservices.nuage.services.ICatalogFactory;
@@ -50,22 +50,30 @@ public class NuageService {
 	private IGoogleSearchClient googleSearchClient;
 	
 	/**
+	 * The path where to find the images
+	 */
+	private String imagePath;
+	
+	/**
 	 * Default constructor.
 	 * 
 	 * @param imageProcessing    The image processing service to be used
 	 * @param fileHandler        A helper service to handle files and dir
 	 * @param catalogFactory     A helper service to create the catalog
 	 * @param googleSearchClient A helper service to handle google custom search
+	 * @param imagePath          The path where to find the images
 	 */
 	public NuageService(IImageProcessing imageProcessing,
 			IFileHandler fileHandler,
 			ICatalogFactory catalogFactory,
-			IGoogleSearchClient googleSearchClient) {
+			IGoogleSearchClient googleSearchClient,
+			String imagePath) {
 		
 		this.imageProcessing = imageProcessing;
 		this.fileHandler = fileHandler;
 		this.catalogFactory = catalogFactory;
 		this.googleSearchClient = googleSearchClient;
+		this.imagePath = imagePath;
 	}
 	
 	// GET /images application/xml
@@ -93,7 +101,13 @@ public class NuageService {
 	@Path("images")
 	@Produces("image/jpeg")
 	public final File getImage(@QueryParam("number") String number) {
-		List<String> imagesPath = fileHandler.scanDir(Config.IMAGES_PATH);
+		List<String> imagesPath = fileHandler.scanDir(imagePath);
+		
+		int imageNumber = Integer.parseInt(number);
+		
+		if (imageNumber < 0 || imageNumber >= imagesPath.size()) {
+			throw new NotFoundException("The requested image number doesn't exists !");
+		}
 		
 		File image = fileHandler.loadFile(imagesPath.get(Integer.parseInt(number)));
 		
