@@ -51,7 +51,7 @@ public final class CatalogFactory implements ICatalogFactory {
 		List<String> imagesPath = fileHandler.scanDir(dirPath);
 		
 		for (int i = 0; i < imagesPath.size(); i++) {
-			File file = new File(imagesPath.get(i));
+			File file = fileHandler.loadFile(imagesPath.get(i));
 			catalog.getImages().add(
 					new CatalogEntry(
 						i,

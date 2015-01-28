@@ -1,5 +1,6 @@
 package server.webservices.nuage.services;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +45,8 @@ public class ServiceFactory {
 		return new NuageService(createImageProcessing(), 
 				createFileHandler(), 
 				createCatalogFactory(),
-				createGoogleSearchClient());
+				createGoogleSearchClient(),
+				Config.IMAGES_PATH);
 	}
 
 	/**
@@ -108,5 +110,4 @@ public class ServiceFactory {
 		
 		return (IImageProcessing) servicesContainer.get(ServicesCollection.ImageProcessing);
 	}
-	
 }
