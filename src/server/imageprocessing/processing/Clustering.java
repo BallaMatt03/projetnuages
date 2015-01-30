@@ -2,13 +2,8 @@
 package server.imageprocessing.processing;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
-/**
- * ..
- * 
- * @author Thomas
- *
- */
 public final class Clustering {
 
 	
@@ -18,11 +13,19 @@ public final class Clustering {
 	
 	/**
 	 * kMeans algorithm.
-	 * @param source image source
+	 * @param src image source
+	 * @param dst image destination
 	 * @return picture
 	 */
-	static Image kmeans(final Image source) {
-		return null;
+	static Image applyKmeans(String src, String dst, int nbClusters) {
+        // create new KMeans object 
+        Kmeans kmeans = new Kmeans(); 
+        // call the function to actually start the clustering 
+        BufferedImage dstImage = kmeans.calculate(kmeans.loadImage(src), nbClusters); 
+        // save the resulting image 
+        kmeans.saveImage(dst, dstImage); 
+        
+        return dstImage;
 	}
 	
 	/**
