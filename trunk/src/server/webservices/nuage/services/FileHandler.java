@@ -1,7 +1,11 @@
 package server.webservices.nuage.services;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,7 @@ public final class FileHandler implements IFileHandler {
 	/* (non-Javadoc)
 	 * @see server.webservices.nuage.services.IFileHandler#scanDir()
 	 */
+	@Override
 	public List<String> scanDir(String path) {
 		List<String> imagesPath = new ArrayList<>();
 		
@@ -41,6 +46,27 @@ public final class FileHandler implements IFileHandler {
 		return imagesPath;
 	}
 	
+	/* (non-Javadoc)
+	 * @see server.webservices.nuage.services.IFileHandler#transformStreamToFile()
+	 */
+	@Override
+	public File transformStreamToFile(InputStream stream, String path) {
+		try {
+			File file = new File(path);
+			
+			byte[] buffer = new byte[stream.available()];
+			OutputStream os = new FileOutputStream(file);
+			
+			stream.read(buffer);
+			os.write(buffer);
+			os.close();
+			
+			return file;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
 	/**
 	 * A filter to retrieve only jpeg file.
 	 */
@@ -49,5 +75,5 @@ public final class FileHandler implements IFileHandler {
 			return name.endsWith(".jpeg") || name.endsWith(".jpg");
 		}
 	};
-	
+
 }

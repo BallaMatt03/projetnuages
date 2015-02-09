@@ -10,8 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.zip.Deflater;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -26,7 +25,7 @@ import javax.imageio.ImageIO;
  * Date: 1/22/15
  * Time: 10:25 PM (GMT + 1)
  */
-public class ZipManager {
+public class ZipManager implements IZipManager {
 	private final int bufferSize;
 	private byte data[];
 	private int count;
@@ -36,6 +35,10 @@ public class ZipManager {
 		data = new byte[bufferSize];
 	}
 	 
+	/* (non-Javadoc)
+	 * @see server.webservices.nuage.services.IZipManager#unzip(java.lang.String)
+	 */
+	@Override
 	public void unzip (String archivePath) {
 		try { 
 			BufferedOutputStream dest = null;
@@ -62,7 +65,11 @@ public class ZipManager {
 		}
 	}
 	
-	public File zip (ArrayList<BufferedImage> images) {
+	/* (non-Javadoc)
+	 * @see server.webservices.nuage.services.IZipManager#zip(java.util.ArrayList)
+	 */
+	@Override
+	public File zip (List<BufferedImage> images) {
 		String archivePath = new String("archiveTemp.zip");
 		try {
 			FileOutputStream dest= new FileOutputStream(archivePath);

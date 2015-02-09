@@ -1,6 +1,7 @@
 package server.webservices.nuage.services;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -27,5 +28,15 @@ public interface IFileHandler {
 	 * @return The absolute path of all images
 	 */
 	public abstract List<String> scanDir(String path);
+	
+	/**
+	 * Transform a stream type to a standard file type.
+	 * 
+	 * @param stream The stream to transform
+	 * @param path Where to store the temp file
+	 * 
+	 * @return The normalized file
+	 */
+	public abstract File transformStreamToFile(InputStream stream, String path);
 	
 }
