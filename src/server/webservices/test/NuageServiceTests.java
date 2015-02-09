@@ -10,8 +10,6 @@ import javax.ws.rs.NotFoundException;
 
 import org.junit.Test;
 
-import server.imageprocessing.IImageProcessing;
-import server.webservices.google.IGoogleSearchClient;
 import server.webservices.nuage.NuageService;
 import server.webservices.nuage.model.Catalog;
 import server.webservices.nuage.services.ICatalogFactory;
@@ -39,12 +37,7 @@ public class NuageServiceTests {
 		ICatalogFactory mock = mock(ICatalogFactory.class);
 		when(mock.createCatalog()).thenReturn(catalog);
 		
-		NuageService nuage = new NuageService(
-				mock(IImageProcessing.class), 
-				mock(IFileHandler.class), 
-				mock, 
-				mock(IGoogleSearchClient.class),
-				null);
+		NuageService nuage = new NuageService(null, null, mock, null, null, null);
 		
 		// Act - Ask to give the current Catalog
 		Catalog returnedCatalog = nuage.getCatalog();
@@ -67,12 +60,7 @@ public class NuageServiceTests {
 		when(mock.loadFile(path1)).thenReturn(new File(path1));
 		when(mock.loadFile(path2)).thenReturn(new File(path2));
 		
-		NuageService nuage = new NuageService(
-				mock(IImageProcessing.class),
-				mock,
-				mock(ICatalogFactory.class), 
-				mock(IGoogleSearchClient.class),
-				imagePath);
+		NuageService nuage = new NuageService(null, mock, null, null, imagePath, null);
 		
 		// Act - Ask to give the image 1
 		File image = nuage.getImage("0");
@@ -90,17 +78,12 @@ public class NuageServiceTests {
 	@Test(expected = NotFoundException.class)
 	public void return404NotFound() {
 		// Arrange
-		NuageService nuage = new NuageService(
-				mock(IImageProcessing.class),
-				mock(IFileHandler.class),
-				mock(ICatalogFactory.class), 
-				mock(IGoogleSearchClient.class),
-				null);
+		NuageService nuage = new NuageService(null, mock(IFileHandler.class), null, null, null, null);
 		
 		// Act - Ask to give an unknown image
 		nuage.getImage("1");
 		
 		// Assert - being done by the Test annotation
 	}
-
+	
 }

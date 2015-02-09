@@ -1,10 +1,10 @@
 package server.webservices.nuage.services;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import server.imageprocessing.IImageProcessing;
+import server.imageprocessing.processing.ImageProcessing;
 import server.webservices.Config;
 import server.webservices.google.GoogleSearchClient;
 import server.webservices.google.IGoogleSearchClient;
@@ -29,7 +29,8 @@ public class ServiceFactory {
 		FileHandler,
 		CatalogFactory,
 		ImageProcessing,
-		GoogleSearchClient
+		GoogleSearchClient,
+		ZipManager
 	}
 	
 	public ServiceFactory() {
@@ -46,7 +47,8 @@ public class ServiceFactory {
 				createFileHandler(), 
 				createCatalogFactory(),
 				createGoogleSearchClient(),
-				Config.IMAGES_PATH);
+				Config.IMAGES_PATH,
+				createZipManager());
 	}
 
 	/**
@@ -105,9 +107,24 @@ public class ServiceFactory {
 		if (!servicesContainer.containsKey(ServicesCollection.ImageProcessing)) {
 			servicesContainer.put(
 					ServicesCollection.ImageProcessing, 
-					null);
+					new ImageProcessing());
 		}
 		
 		return (IImageProcessing) servicesContainer.get(ServicesCollection.ImageProcessing);
+	}
+	
+	/**
+	 * Helper to instantiate ZipManager service.
+	 * 
+	 * @return The instantiated service
+	 */
+	public IZipManager createZipManager() {
+		if (!servicesContainer.containsKey(ServicesCollection.ZipManager)) {
+			servicesContainer.put(
+					ServicesCollection.ZipManager, 
+					new ZipManager());
+		}
+		
+		return (IZipManager) servicesContainer.get(ServicesCollection.ZipManager);
 	}
 }

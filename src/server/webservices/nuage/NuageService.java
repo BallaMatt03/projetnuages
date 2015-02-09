@@ -2,8 +2,12 @@ package server.webservices.nuage;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -20,6 +24,7 @@ import server.webservices.google.IGoogleSearchClient;
 import server.webservices.nuage.model.Catalog;
 import server.webservices.nuage.services.ICatalogFactory;
 import server.webservices.nuage.services.IFileHandler;
+import server.webservices.nuage.services.IZipManager;
 
 /**
  * Ressources avalaible on the nuage webservice.
@@ -50,6 +55,11 @@ public class NuageService {
 	private IGoogleSearchClient googleSearchClient;
 	
 	/**
+	 * A helper service to manage zip file
+	 */
+	private IZipManager zipManager;
+	
+	/**
 	 * The path where to find the images
 	 */
 	private String imagePath;
@@ -62,18 +72,21 @@ public class NuageService {
 	 * @param catalogFactory     A helper service to create the catalog
 	 * @param googleSearchClient A helper service to handle google custom search
 	 * @param imagePath          The path where to find the images
+	 * @param zipManager 		 A helper service to manage zip file
 	 */
 	public NuageService(IImageProcessing imageProcessing,
 			IFileHandler fileHandler,
 			ICatalogFactory catalogFactory,
 			IGoogleSearchClient googleSearchClient,
-			String imagePath) {
+			String imagePath,
+			IZipManager zipManager) {
 		
 		this.imageProcessing = imageProcessing;
 		this.fileHandler = fileHandler;
 		this.catalogFactory = catalogFactory;
 		this.googleSearchClient = googleSearchClient;
 		this.imagePath = imagePath;
+		this.zipManager = zipManager;
 	}
 	
 	// GET /images application/xml
@@ -126,10 +139,9 @@ public class NuageService {
 	@Path("findShapes")
 	@Produces("application/zip")
 	public final File findShapes(@QueryParam("keyword") String keyword) {
-		
 		List<BufferedImage> images = googleSearchClient.getImagesFromKeyword(keyword);
 		
-		File zip = null;// zip the file
+		File zip = zipManager.zip(images);
 		
 		return zip;
 	}
@@ -156,6 +168,7 @@ public class NuageService {
 	 */
 	@POST
 	@Path("merge")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces("image/jpeg")
 	public final File merge(@QueryParam("number") String number,
 			@QueryParam("imgXStart") String imgXStart,
@@ -166,9 +179,13 @@ public class NuageService {
 			@QueryParam("googleXEnd") String googleXEnd,
 			@QueryParam("googleYStart") String googleYStart,
 			@QueryParam("googleYEnd") String googleYEnd,
-			Attachment googleSelectedImage) {
+			Attachment googleSelectedImage)
+			throws IOException {
 		File image = getImage(number);
-		File google = null; // retrieve from attachment
+		
+		InputStream googleImageStream = googleSelectedImage.getDataHandler().getInputStream();
+		File googleImage = fileHandler.transformStreamToFile(googleImageStream, 
+				imagePath + "/google/" + UUID.randomUUID().toString() + ".jpeg");
 		
 		Crop imageCrop = new Crop(
 				Integer.parseInt(imgXStart),
@@ -181,7 +198,7 @@ public class NuageService {
 				Integer.parseInt(googleXEnd) - Integer.parseInt(googleXStart),
 				Integer.parseInt(googleYEnd) - Integer.parseInt(googleYStart));
 		
-		File merged = imageProcessing.postProcessing(image, imageCrop, google, googleCrop);
+		File merged = imageProcessing.postProcessing(image, imageCrop, googleImage, googleCrop);
 		
 		return merged;
 	}
