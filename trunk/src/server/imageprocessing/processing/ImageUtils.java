@@ -2,6 +2,7 @@ package server.imageprocessing.processing;
 
 import server.imageprocessing.Crop;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -24,6 +25,8 @@ import javax.imageio.ImageWriter;
 import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.ImageIcon;
+
+import com.mortennobel.imagescaling.experimental.ImprovedMultistepRescaleOp;
 
 
 
@@ -90,7 +93,9 @@ public final class ImageUtils {
 	    BufferedImage result = gc[0].createCompatibleImage(neww, newh);
 	    Graphics2D graph = result.createGraphics();
 	    graph.translate((neww - width) / 2, (newh - height) / 2);
-	    graph.rotate(angle, width / 2, height / 2);
+	    // la rotation se fait avec un angle en radian et non en degre
+	    double angle_radian = angle * Math.PI / 180.0;
+	    graph.rotate(angle_radian, width / 2, height / 2);
 	    graph.drawRenderedImage(image, null);
 	    graph.dispose();
 	    return result;
@@ -223,5 +228,107 @@ public final class ImageUtils {
 			writer.dispose();
 			ios.close();
 	  }
+    
+    /**
+     * Resize an image according a new width and height
+     * 
+     * @param image
+     * 				image to be resized
+     * @param width
+     * 				new width of the image
+     * @param height
+     * 				new height of the image
+     * @return
+     */
+    public static BufferedImage resize(BufferedImage image, int width, int height) {
+        ImprovedMultistepRescaleOp resampleOp = new ImprovedMultistepRescaleOp (width, height);
+        return resampleOp.filter(image, null);
+    }
+    
+    /**
+     * 
+     * @param image
+     * 				image contenant le contour de l'image google
+     * @param crop
+     * 				crop de l'image de départ pour la mise à l'échelle
+     * @return
+     */
+    public static BufferedImage resizeContour(BufferedImage image, Crop crop)
+    {
+    	int x0 = 0;
+    	int x1 = 0;
+    	int y0 = 0;
+    	int y1 = 0;
+    	int i = 0;
+    	int j = 0;
+    	boolean ok = false;
+    	
+    	// On va récupérer 4 valeurs qui vont correspondre aux réels bords du contour
+    	// On élimine ainsi les bords noirs superflus apparu après la rotation
+    	while(i < image.getWidth() && !ok){
+    		while(j < image.getHeight() && !ok){
+    			if(image.getRGB(i, j) == Color.WHITE.getRGB()){
+    				y0 = i;
+    				ok = true;
+    			}
+    			j++;
+    		}
+    		i++;
+    		j = 0;
+    	}
+    	
+    	i = image.getWidth() - 1;
+    	j = 0;
+    	ok = false;
+    	
+    	while(i >= 0 && !ok){
+    		while(j < image.getHeight() && !ok){
+    			if(image.getRGB(i, j) == Color.WHITE.getRGB()){
+    				y1 = i;
+    				ok = true;
+    			}
+    			j++;
+    		}
+    		i--;
+    		j = 0;
+    	}
+    	
+    	i = 0;
+    	j = 0;
+    	ok = false;
+    	
+    	while(j < image.getHeight() && !ok){
+    		while(i < image.getWidth() && !ok){
+    			if(image.getRGB(i, j) == Color.WHITE.getRGB()){
+    				x0 = j;
+    				ok = true;
+    			}
+    			i++;
+    		}
+    		j++;
+    		i = 0;
+    	}
+    	
+    	i = 0;
+    	j = image.getHeight() - 1;
+    	ok = false;
+    	
+    	while(j >= 0 && !ok){
+    		while(i < image.getWidth() && !ok){
+    			if(image.getRGB(i, j) == Color.WHITE.getRGB()){
+    				x1 = j;
+    				ok = true;
+    			}
+    			i++;
+    		}
+    		j--;
+    		i = 0;
+    	}
+    	
+    	// On découpe l'image suivant les valeurs récupérées
+    	BufferedImage newImage = image.getSubimage(x0, y0, x1 - x0, y1 - y0);
+    	// On renvoie l'image mise à l'échelle
+		return resize(newImage, crop.getWidth(), crop.getHeight()) ;
+    }
 
 }
