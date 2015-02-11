@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
 
 /**
  * ..
- * @author Thomas
+ * @author Thomas, Vaïk
  *
  */
 public class ImageProcessing implements IImageProcessing {
@@ -53,18 +53,34 @@ public class ImageProcessing implements IImageProcessing {
 			newImage = newImage.getSubimage(cropGoogle.getStartX(), 
 					cropGoogle.getStartY(), cropGoogle.getWidth(), cropGoogle.getHeight());
 			
-			//TODO mise à l'échelle grâce au masque de kmeans
+			//ImageUtils.saveimageasJpeg(newImage,  new FileOutputStream("./pictures/results/final/avantRotate.jpg"), 100);
 			
-			//TODO voir pourquoi quand on passe newImage on obtient une image noire
-			BufferedImage contourGoogleImage = ContourDetection.eroseDetection(in.getSubimage(cropGoogle.getStartX(), 
-					cropGoogle.getStartY(), cropGoogle.getWidth(), cropGoogle.getHeight()), 4);
-
-			//on boucle sur l'image source pour inscire l'image google en rouge
+			// mise à l'échelle de l'image google grâce au masque de l'image source
+			newImage = ImageUtils.resize(newImage, crop.getWidth(), crop.getHeight());
+			//ImageUtils.saveimageasJpeg(newImage,  new FileOutputStream("./pictures/results/final/apresRedim.jpg"), 100);
+			
+			// rotation de l'image google suivant l'angle donné
+			newImage = ImageUtils.rotate(newImage, cropGoogle.getAngle());
+			//ImageUtils.saveimageasJpeg(newImage,  new FileOutputStream("./pictures/results/final/apresRotate.jpg"), 100);
+			
+			// obtention du contour de l'image google
+			BufferedImage contourGoogleImage = ContourDetection.eroseDetection(newImage, 4);
+			//ImageUtils.saveimageasJpeg(contourGoogleImage,  new FileOutputStream("./pictures/results/final/contourImageGoogleAvantResize.jpg"), 100);
+			
+			// mise à l'échelle du contour
+			contourGoogleImage = ImageUtils.resizeContour(contourGoogleImage, crop);
+			//ImageUtils.saveimageasJpeg(contourGoogleImage,  new FileOutputStream("./pictures/results/final/apresRedim.jpg"), 100);
+			
+			//on boucle sur l'image source pour inscire le contour de l'image google en rouge
 			int googleI = 0;
 			int googleJ = 0;
+
 			for (int i = crop.getStartX(); i < crop.getStartX() + crop.getWidth() ; i++) {
 				for (int j = crop.getStartY(); j < crop.getStartY() + crop.getHeight() ; j++) {
-					if (contourGoogleImage.getRGB(googleI, googleJ) == Color.WHITE.getRGB()) {
+					// A la base, la détection de contour renvoit un fond noir et le contour en blanc.
+					// Mais la mise à l'échelle fait que l'on obtient des nuances de gris.
+					// On utilise ainsi les pixels qui ne sont pas noir afin de définir précisément le contour
+					if (contourGoogleImage.getRGB(googleI, googleJ) != Color.BLACK.getRGB()) {
 						srcImage.setRGB(i, j, Color.red.getRGB());
 					}
 					googleJ++;
