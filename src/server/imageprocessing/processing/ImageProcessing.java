@@ -1,18 +1,18 @@
 
 package server.imageprocessing.processing;
 
-import server.imageprocessing.Crop;
-import server.imageprocessing.IImageProcessing;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
+
+import server.imageprocessing.Crop;
+import server.imageprocessing.IImageProcessing;
 
 
 
@@ -38,8 +38,7 @@ public class ImageProcessing implements IImageProcessing {
 	public File postProcessing(File image, Crop crop, File google, Crop cropGoogle) {
 			
 		BufferedImage in = null;
-		try {
-			
+		try {		
 			//On récupère les imges qui correspondent aux fichiers 
 			//passés en paramètre
 			in = ImageIO.read(image);
@@ -95,7 +94,8 @@ public class ImageProcessing implements IImageProcessing {
 			e.printStackTrace();
 		}
 		
-		return new File("./pictures/results/final/temp.jpg");
+		UUID finalFileName = UUID.randomUUID();
+		return new File("./pictures/results/final/" + finalFileName.toString() + ".jpg");
 	}
 
 }
