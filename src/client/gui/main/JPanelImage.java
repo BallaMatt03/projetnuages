@@ -14,32 +14,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class JPanelImage extends JPanelCustom implements ChangeListener {
+class JPanelImage extends JPanelCustom implements ChangeListener {
     
 	private BufferedImage cropImage;
     private Rectangle cropBounds;
 	private boolean drag_status = false;	
 	private Point cropPointStart, cropPointEnd;
 
-	public JPanelImage() {
-		try {
-			this.image = ImageIO.read(new File("./res/default.jpg"));
-			MouseHandler handler = new MouseHandler();
-			addMouseListener(handler);
-			addMouseMotionListener(handler);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
     public JPanelImage(Image img) {
     	this.image = img;
         MouseHandler handler = new MouseHandler();
@@ -100,12 +85,12 @@ public class JPanelImage extends JPanelCustom implements ChangeListener {
         }
         return actualBounds;
     }
-	
-	public void setImageBackground(Image image){
-		super.image = image; 
-		repaint();
-    }
 
+    public void setImageBackground(Image image){
+        super.image = image; 
+        repaint();
+       }
+    
     public class MouseHandler extends MouseAdapter {
 
 
@@ -131,7 +116,7 @@ public class JPanelImage extends JPanelCustom implements ChangeListener {
 	        	
 	        	//cropPointStart = validPoint(new Point(e.getXOnScreen(), e.getYOnScreen()));
 	        	double imgscale = getScale();// <1 ? getScale()+1 : getScale()-1 ;
-	        	System.out.println("Image Echelle : "+imgscale);
+	        	//System.out.println("Image Echelle : "+imgscale);
 	        	if(cropPointStart.getX()<cropPointEnd.getX())
 	        	{
 	        		if(cropPointStart.getY()<cropPointEnd.getY())
@@ -187,36 +172,37 @@ public class JPanelImage extends JPanelCustom implements ChangeListener {
                 int height = p.y - cropBounds.y;
                 int x = e.getX()<0 ? 0: e.getX();
                 int y = e.getY()<0 ? 0: e.getY();
-                System.out.println("========================");
-                System.out.println("X : "+x+" Y :"+y);
-                System.out.println("========================");
+               // System.out.println("========================");
+               // System.out.println("X : "+x+" Y :"+y);
+               // System.out.println("========================");
                 cropBounds.setSize(width, height);
                 cropPointEnd = validPoint(new Point(x, y));
                 repaint();
             }
         }
         
+
         
         private Point validPoint(Point p){
         	Rectangle imgRect = getRectangleImage();
         	Point newPoint = p;
         	if (newPoint.getX() > imgRect.getMaxX()) {
         		newPoint.setLocation(imgRect.getMaxX(), newPoint.getY() - 1);
-        		System.out.println("x max");
+        		//System.out.println("x max");
         	}
         	if (newPoint.getX() < imgRect.getMinX()) {
         		newPoint.setLocation(imgRect.getMinX(), newPoint.getY() - 1);
-        		System.out.println("x min");
+        		//System.out.println("x min");
         	}
         	if (newPoint.getY() > imgRect.getMaxY()) {
         		newPoint.setLocation(newPoint.getX(), imgRect.getMaxY() - 1);
-        		System.out.println("y max");
+        		//System.out.println("y max");
         	}
         	if (newPoint.getY() < imgRect.getMinY()) {
         		newPoint.setLocation(newPoint.getX(), imgRect.getMinY() - 1);
-        		System.out.println("y min");
+        		//System.out.println("y min");
         	}
-        	System.out.println("Coordonées  x:"+newPoint.getX()+" y:"+newPoint.getY()+" yMax:"+imgRect.getMaxY()+" xMax:"+imgRect.getMaxX());
+        	//System.out.println("Coordonées  x:"+newPoint.getX()+" y:"+newPoint.getY()+" yMax:"+imgRect.getMaxY()+" xMax:"+imgRect.getMaxX());
         	return newPoint;
         }
     }
