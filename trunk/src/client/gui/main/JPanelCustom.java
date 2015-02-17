@@ -37,7 +37,7 @@ public class JPanelCustom extends JPanel{
         if (image != null) {
 			int imgWidth = image.getWidth(null);
 	        int imgHeight = image.getHeight(null);
-	        System.out.println("Taille image départ : "+imgWidth+" x "+imgHeight); 
+	        //System.out.println("Taille image départ : "+imgWidth+" x "+imgHeight); 
 	        double imgAspect = (double) imgHeight / imgWidth;
 	        
 	 
@@ -69,8 +69,8 @@ public class JPanelCustom extends JPanel{
 	        int widthPanel = this.getWidth();
 	        int heightPanel = this.getHeight();
 	        this.diffWidth = (double)(widthPanel - canvasWidth)/2.0; 
-	        System.out.println("Taille Panel départ : "+widthPanel+" x "+heightPanel);
-	        System.out.println("Taille Canvas départ : "+canvasWidth+" x "+canvasHeight);
+	       // System.out.println("Taille Panel départ : "+widthPanel+" x "+heightPanel);
+	       // System.out.println("Taille Canvas départ : "+canvasWidth+" x "+canvasHeight);
 	        g.drawImage(image, x1, y1, x2, y2, 0, 0, imgWidth, imgHeight, null);
         }
 	}
@@ -94,5 +94,10 @@ public class JPanelCustom extends JPanel{
 
 	    // Return the buffered image
 	    return bimage;
+	}
+	
+	public void setImageBackground(Image image){
+		this.image = image;
+		repaint();
 	}
 }
