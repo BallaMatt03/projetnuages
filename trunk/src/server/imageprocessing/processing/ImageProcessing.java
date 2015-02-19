@@ -30,7 +30,39 @@ public class ImageProcessing implements IImageProcessing {
 
 	@Override
 	public File preProcessing(File image, Crop crop) {
-		return image;
+		
+		UUID finalFileName = UUID.randomUUID();
+		
+		if ( image == null) {
+			throw new IllegalArgumentException("Paramètre image invalide");
+		}
+
+		BufferedImage in = null;
+		try {
+			in = ImageIO.read(image);
+		} catch (IOException e1) {
+			//ne devrait jamais se produire sauf si le file est null
+			e1.printStackTrace();
+		}
+		
+		BufferedImage newImage = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+		Graphics2D graph = newImage.createGraphics();
+		graph.drawImage(in, 0, 0, null);
+		graph.dispose();
+		newImage = newImage.getSubimage(crop.getStartX(), 
+				crop.getStartY(), crop.getWidth(), crop.getHeight());
+		
+		// rotation de l'image google suivant l'angle donné
+		newImage = ImageUtils.rotate(newImage, crop.getAngle());
+		
+		try {
+			Clustering.applyKmeans(newImage, "./pictures/results/final/" + finalFileName.toString() + ".jpg", 4);
+		} catch (IllegalArgumentException | IOException e) {
+			System.err.println("Erreur lors du prétraitement");
+			e.printStackTrace();
+		}
+		
+		return new File("./pictures/results/final/" + finalFileName.toString() + ".jpg");
 	}
 
 	@Override

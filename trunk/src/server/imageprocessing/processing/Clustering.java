@@ -21,21 +21,13 @@ public final class Clustering {
 	 * @param dst image destination
 	 * @return picture
 	 */
-	static Image applyKmeans(String src, String dst, int nbClusters) 
+	static Image applyKmeans(BufferedImage src, String dst, int nbClusters) 
 			throws IllegalArgumentException, IOException {
         // create new KMeans object 
         Kmeans kmeans = new Kmeans(); 
 
-        BufferedImage img  = null;
-        try {
-        	img = ImageIO.read(new File(src));
-        } catch (IOException e ) {
-        	System.err.println("Fichier non trouvé à l'emplacement spécifié : " + src);
-        	throw new IllegalArgumentException("Le paramètre src est incorrect : " + src);
-        }
-
         // call the function to actually start the clustering
-        BufferedImage dstImage = kmeans.calculate(img, nbClusters); 
+        BufferedImage dstImage = kmeans.calculate(src, nbClusters); 
         
         // save the resulting image
         try {
