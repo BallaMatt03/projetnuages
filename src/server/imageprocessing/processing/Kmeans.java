@@ -20,7 +20,7 @@ public class Kmeans{
      * 			result image
      */
     public BufferedImage calculate(BufferedImage image, int coefficient) { 
-        long start = System.currentTimeMillis(); 
+        final long start = System.currentTimeMillis(); 
         int width = image.getWidth(); 
         int height = image.getHeight(); 
         // create clusters 
@@ -65,7 +65,7 @@ public class Kmeans{
         for (int y = 0 ; y < height ; y++) { 
             for (int x  = 0 ; x < width ; x++) { 
                 int clusterId = lut[ width * y + x ]; 
-                result.setRGB(x, y, clusters[clusterId].getRGB()); 
+                result.setRGB(x, y, clusters[clusterId].getrgb()); 
             } 
         } 
         long end = System.currentTimeMillis(); 
@@ -130,12 +130,9 @@ public class Kmeans{
         int blues; 
          
         public Cluster(int id, int rgb) { 
-            int r = rgb >> 16&0x000000FF;  
-            int g = rgb >> 8&0x000000FF;  
-            int b = rgb >> 0&0x000000FF;  
-            red = r; 
-            green = g; 
-            blue = b; 
+            red = rgb >> 16 & 0x000000FF; 
+            green = rgb >> 8 & 0x000000FF; 
+            blue = rgb >> 0 & 0x000000FF; 
             this.id = id; 
             addPixel(rgb); 
         } 
@@ -154,56 +151,46 @@ public class Kmeans{
             return id; 
         } 
          
-        int getRGB() { 
-            int r = reds / pixelCount; 
-            int g = greens / pixelCount; 
-            int b = blues / pixelCount; 
-            if ( r < 220 && g < 220) {
-            	r = 0;
-            	g = 0;
-            	b = 0;
+        int getrgb() { 
+            int red = reds / pixelCount; 
+            int green = greens / pixelCount; 
+            int blue = blues / pixelCount; 
+            if ( red < 220 && green < 220) {
+            	red = 0;
+            	green = 0;
+            	blue = 0;
             } else {
-            	r = 255;
-            	g = 255;
-            	b = 255;            	
+            	red = 255;
+            	green = 255;
+            	blue = 255;            	
             }
-            return 0xff000000|r<<16|g<<8|b; 
+            return 0xff000000 | red << 16 | green << 8 | blue; 
         } 
         
         void addPixel(int color) { 
-            int r = color>>16&0x000000FF;  
-            int g = color>> 8&0x000000FF;  
-            int b = color>> 0&0x000000FF; 
-            reds += r; 
-            greens += g; 
-            blues += b;
+            reds += color >> 16 & 0x000000FF; 
+            greens += color >> 8 & 0x000000FF; 
+            blues += color >> 0 & 0x000000FF;
             pixelCount++; 
             red   = reds / pixelCount; 
             green = greens / pixelCount; 
             blue  = blues / pixelCount; 
         } 
          
-        void removePixel(int color) { 
-            int r = color>>16&0x000000FF;  
-            int g = color>> 8&0x000000FF;  
-            int b = color>> 0&0x000000FF;  
-            reds -= r; 
-            greens -= g; 
-            blues -= b; 
+        void removePixel(int color) {  
+            reds -= color >> 16 & 0x000000FF; 
+            greens -= color >> 8 & 0x000000FF; 
+            blues -= color >> 0 & 0x000000FF; 
             pixelCount--; 
             red   = reds / pixelCount; 
             green = greens / pixelCount; 
             blue  = blues / pixelCount; 
         } 
          
-        int distance(int color) { 
-            int r = color>>16&0x000000FF;  
-            int g = color>> 8&0x000000FF;  
-            int b = color>> 0&0x000000FF;
-            
-            int rx = Math.abs( red - r ); 
-            int gx = Math.abs( green - g ); 
-            int bx = Math.abs( blue - b ); 
+        int distance(int color) {  
+            int rx = Math.abs( red - color >> 16 & 0x000000FF ); 
+            int gx = Math.abs( green - color >> 8 & 0x000000FF ); 
+            int bx = Math.abs( blue - color >> 0 & 0x000000FF ); 
             return ( rx + gx + bx ) / 3; 
         } 
     } 
