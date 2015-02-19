@@ -2,16 +2,20 @@ package client.gui.gallery;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +24,25 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JRootPane;
+import javax.swing.JDialog;
 import javax.swing.JToolBar;
 import javax.swing.SwingWorker;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import server.webservices.Config;
+import server.webservices.nuage.model.Catalog;
+import server.webservices.nuage.model.CatalogEntry;
+import server.webservices.nuage.services.ZipManager;
 import client.gui.main.JPanelCustom;
 
 public class GalleryUI {
 
-	private static JFrame frame;
+	private static JDialog dialog;
 	
     private JPanelCustom imagePanel;
     private JToolBar buttonBar;  
@@ -37,69 +50,150 @@ public class GalleryUI {
     private JButton oldButtonSelected;
     private JButton oldChooseButton;
     
-    private static List<BufferedImage> images = null;
-    /**
-     * Main entry point to the demo. Loads the Swing elements on the "Event
-     * Dispatch Thread".
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-    	images = getBufferedImages();
-    	EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                GalleryUI gallery = new GalleryUI();
-            }
-        });
-    }
+    private static List<CatalogEntry> images = null;
+    
+    private BufferedImage imageSelected;    
+    private String imageNameSelected;
+    
+    private static ZipManager zipManager;
+
+//	public static void main(String[] args) {
+//	EventQueue.invokeLater(new Runnable() {
+//        public void run() {
+//        	GalleryUI galleryUI = new GalleryUI();
+//        }
+//    });
+//	
+//}
     
 	/**
-	 * Create the application.
+	 * Create the GalleryUI window
+	 * @param JDialog dialog
+	 * @param String path
 	 */
-	public GalleryUI() {
+	public GalleryUI(JDialog dialog, String path) {
+		this.dialog = dialog;
 		initialize();
-		
+		images = getBufferedImages();
+        // Start the image loading SwingWorker in a background thread
+        loadImages.execute();
+	}
+	
+	/**
+	 * Create the GalleryUI window after communication with Google server
+	 * @param JDialog dialog
+	 * @param String path
+	 * @param String keyword
+	 */
+	public GalleryUI(JDialog dialog, String path, String keyword) {
+		this.dialog = dialog;
+		zipManager = new ZipManager();
+		initialize();
+		images = getBufferedImages(path, keyword);
         // Start the image loading SwingWorker in a background thread
         loadImages.execute();
 	}
     
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialize the contents of the dialog.
 	 */
     public void initialize() {
-    	frame = new JFrame("Gallery");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setMinimumSize(new Dimension(740, 480));
-	    frame.setUndecorated(true);
-	    frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-        frame.setSize(new Dimension(740, 480));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
         
         imagePanel = new JPanelCustom();
         imagePanel.setBackground(Color.BLACK);
-        frame.getContentPane().add(imagePanel, BorderLayout.CENTER);
+        dialog.getContentPane().add(imagePanel, BorderLayout.CENTER);
         
         buttonBar = new JToolBar();
         
-        frame.getContentPane().add(buttonBar, BorderLayout.SOUTH);
+        dialog.getContentPane().add(buttonBar, BorderLayout.SOUTH);
     }
     
-    public static List<BufferedImage> getBufferedImages() {
-		List<BufferedImage> images = new ArrayList<BufferedImage>();
+    /**
+     * Get the BufferedImages from the server
+     * @return List<CatalogEntry>
+     */
+    public static List<CatalogEntry> getBufferedImages() {
+    	List<CatalogEntry> images = new ArrayList<CatalogEntry>();
 
-		try {
-			File folderZIP = new File("./res/zipfolder");
-			if (folderZIP.exists()) {
-				for (File image : folderZIP.listFiles()) {
-					images.add(ImageIO.read(image));
-				}
-			}
-		} catch (IOException e) {
-			System.err.println("*** ERROR ***" + e.getMessage());
-		}
+		Client client = ClientBuilder.newClient();
+		WebTarget webTarget = client.target(Config.HOST + "/nuage").path("images");
+		
+		Catalog catalogue = webTarget.request(MediaType.APPLICATION_XML).get(Catalog.class);
+		images = catalogue.getImages();
+
 		return images;
     }
+    
+    /**
+     * Get the BufferedImages from Google Image search zip file
+     * @param String path
+     * @param String keyword
+     * @return List<CatalogEntry>
+     */
+    public static List<CatalogEntry> getBufferedImages(String path, String keyword) {
+    	List<CatalogEntry> images = new ArrayList<CatalogEntry>();
+
+		Client client = ClientBuilder.newClient();
+		WebTarget webTarget = client.target(Config.HOST + "/nuage").path(path).queryParam("keyword", keyword);
+		Invocation invoke  = webTarget.request().buildGet();
+		Response resp = invoke.invoke();
+		
+		InputStream zip = (InputStream) resp.getEntity();
+		File outputZip = new File("./res/outputZip.zip");
+		if (outputZip.exists()) {
+			outputZip.delete();
+		}
+		
+		try {
+			//Write the zip
+			writeZip(zip, outputZip);
+	
+			//Unzip
+			zipManager.unzip(new File("./res/outputZip.zip").getAbsolutePath());
+				
+			int i = 0;
+			for (String image : new File(".").list()) {
+				if (image.endsWith(".jpeg")){
+					CatalogEntry entry = new CatalogEntry(i, image, new File(new File(".").getAbsolutePath() + File.separator + image).getAbsolutePath());
+					images.add(entry);
+					++i;
+				}
+			}
+		
+		} catch (IOException e) {
+			System.err.println("**** ERROR *****\n" + e.getMessage());
+		}
+		
+		return images;
+    }
+    
+    /**
+     * Write the zip file
+     * @param InputStream zip
+     * @param File outputZip
+     * @throws IOException
+     */
+    private static void writeZip(InputStream zip, File outputZip) throws IOException{
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+
+		try {
+			bis = new BufferedInputStream(zip);
+			bos = new BufferedOutputStream(new FileOutputStream(outputZip));
+			int data;
+			while ((data = bis.read()) != -1) {
+				bos.write(data);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (bis != null)
+				bis.close();
+			if (bos != null)
+				bos.close();
+		}
+    }
+    
     
     /**
      * SwingWorker class that loads the images a background thread and calls publish
@@ -115,17 +209,31 @@ public class GalleryUI {
         @Override
         protected Void doInBackground() throws Exception {
         	
-        	int i = 0;
-            for (BufferedImage buffImage : images) {
-                ImageIcon icon = new ImageIcon(buffImage, "Image[" + (i++) + "]");
+            for (CatalogEntry entry: images) {
+            	BufferedImage buff = null;
+            
+            	if (entry.getUrl().startsWith("C:\\")) {
+            		buff = ImageIO.read(new File(entry.getUrl()));
+            	} else {
+					Client client = ClientBuilder.newClient();
+					
+					WebTarget webTarget = client.target(entry.getUrl());
+					Invocation invoke  = webTarget.request().buildGet();
+					Response resp = invoke.invoke();
+					
+					buff = ImageIO.read((InputStream) resp.getEntity());
+            	}
+            	
+                ImageIcon icon = new ImageIcon(buff, entry.getName());
                 
                 ThumbnailAction thumbAction = null;
                 if (icon != null) {
                     ImageIcon thumbnailIcon = new ImageIcon(getScaledImage(icon.getImage(), 64, 64));
-                    thumbAction = new ThumbnailAction(icon.getImage(), thumbnailIcon, "" + i);
+                    thumbAction = new ThumbnailAction(icon.getImage(), thumbnailIcon, entry.getName());
                 }
                 publish(thumbAction);
             }
+            dialog.setVisible(true);
 
             return null;
         }
@@ -139,6 +247,7 @@ public class GalleryUI {
                 JButton thumbButton = new JButton(thumbAction);
                 thumbButton.setBackground(Color.WHITE);
                 thumbButton.setFocusPainted(false);
+                
                 // add the new button BEFORE the last glue
                 // this centers the buttons in the toolbar
                 buttonBar.add(thumbButton, buttonBar.getComponentCount() - 1);
@@ -172,6 +281,8 @@ public class GalleryUI {
          */
         private Image displayImage;
         
+        private String displayName;
+        
         /**
          * @param Image - The full size image to show in the button.
          * @param Icon - The thumbnail to show in the button.
@@ -179,6 +290,7 @@ public class GalleryUI {
          */
         public ThumbnailAction(Image image, Icon thumbnail, String index) {
             displayImage = image;
+            displayName = index;
             
             // The short description becomes the tooltip of a button.
             putValue(SHORT_DESCRIPTION, index);
@@ -197,6 +309,14 @@ public class GalleryUI {
         	JButton chooseButton = new JButton("Choisir");
         	chooseButton.setBackground(SystemColor.activeCaption);
         	chooseButton.setFocusPainted(false);
+        	chooseButton.addActionListener(new ActionListener() {	
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					imageSelected = (BufferedImage) displayImage;
+					imageNameSelected = displayName;
+					dialog.dispose();
+				}
+			});
         	
         	if (oldButtonSelected != null) {
         		oldButtonSelected.setBackground(Color.WHITE);
@@ -211,4 +331,21 @@ public class GalleryUI {
         	imagePanel.revalidate();
         }
     }
+
+    /**
+     * Return the Image selected into the Gallery
+     * @return BufferedImage
+     */
+	public BufferedImage getImageSelected() {
+		return imageSelected;
+	}
+
+    /**
+     * Return the Image name selected into the Gallery
+     * @return BufferedImage
+     */
+	public String getImageName() {
+		return imageNameSelected;
+	}
+	
 }
