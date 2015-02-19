@@ -27,9 +27,18 @@ public class ImageProcessingTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		IImageProcessing test = new ImageProcessing();
+		
+		System.out.println("Début des tests sur le pré traitement");
+		File imageTest = new File("./pictures/sources/coeur_nuage.jpg");
+		Crop preCrop =  new Crop(0,0,398,290,0);
+		
+		@SuppressWarnings("unused")
+		File resultPre = test.preProcessing(imageTest, preCrop);
+		System.out.println("Fin des tests sur le pré traitement");
 	
 		System.out.println("Début des tests sur le post traitement");
-		IImageProcessing test = new ImageProcessing();
 		
 		Crop google =  new Crop(0,0,323,341,45);
 		Crop src =  new Crop(100,100,390,390);
