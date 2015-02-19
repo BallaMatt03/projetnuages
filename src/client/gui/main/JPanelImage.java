@@ -167,7 +167,7 @@ class JPanelImage extends JPanelCustom implements ChangeListener {
         public void mouseDragged(MouseEvent e) {
             if (cropBounds != null) {
             	drag_status = true;
-                Point p = validPoint(e.getPoint());
+                Point p = validPoint(new Point(e.getX(), e.getY()));
                 int width = p.x - cropBounds.x;
                 int height = p.y - cropBounds.y;
                 int x = e.getX()<0 ? 0: e.getX();
@@ -202,7 +202,7 @@ class JPanelImage extends JPanelCustom implements ChangeListener {
         		newPoint.setLocation(newPoint.getX(), imgRect.getMinY() - 1);
         		//System.out.println("y min");
         	}
-        	//System.out.println("Coordonées  x:"+newPoint.getX()+" y:"+newPoint.getY()+" yMax:"+imgRect.getMaxY()+" xMax:"+imgRect.getMaxX());
+        	System.out.println("Coordonées  x:"+newPoint.getX()+" y:"+newPoint.getY()+" yMax:"+imgRect.getMaxY()+" xMax:"+imgRect.getMaxX());
         	return newPoint;
         }
     }
