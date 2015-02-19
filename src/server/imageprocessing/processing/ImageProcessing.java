@@ -31,13 +31,14 @@ public class ImageProcessing implements IImageProcessing {
 
 	@Override
 	public File preProcessing(File image, Crop crop) {
-		return null;
+		return image;
 	}
 
 	@Override
 	public File postProcessing(File image, Crop crop, File google, Crop cropGoogle) {
 			
 		BufferedImage in = null;
+		UUID finalFileName = UUID.randomUUID();
 		try {		
 			//On récupère les imges qui correspondent aux fichiers 
 			//passés en paramètre
@@ -89,12 +90,11 @@ public class ImageProcessing implements IImageProcessing {
 			}
 			
 
-			ImageUtils.saveimageasJpeg(srcImage,  new FileOutputStream("./pictures/results/final/result.jpg"), 100);
+			ImageUtils.saveimageasJpeg(srcImage,  new FileOutputStream("./pictures/results/final/" + finalFileName.toString() + ".jpg"), 100);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		UUID finalFileName = UUID.randomUUID();
 		return new File("./pictures/results/final/" + finalFileName.toString() + ".jpg");
 	}
 
