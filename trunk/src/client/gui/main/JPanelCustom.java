@@ -71,7 +71,7 @@ public class JPanelCustom extends JPanel{
 	        this.diffWidth = (double)(widthPanel - canvasWidth)/2.0; 
 	       // System.out.println("Taille Panel départ : "+widthPanel+" x "+heightPanel);
 	       // System.out.println("Taille Canvas départ : "+canvasWidth+" x "+canvasHeight);
-	        g.drawImage(image, x1, y1, x2, y2, 0, 0, imgWidth, imgHeight, null);
+	        g.drawImage(image, x1, 0, x2, y2-y1, 0, 0, imgWidth, imgHeight, null);
         }
 	}
 	
