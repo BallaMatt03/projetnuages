@@ -1,6 +1,9 @@
 
 package server.imageprocessing.processing;
 
+import server.imageprocessing.Crop;
+import server.imageprocessing.IImageProcessing;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -10,10 +13,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
-
-import server.imageprocessing.Crop;
-import server.imageprocessing.IImageProcessing;
-
 
 
 /**
