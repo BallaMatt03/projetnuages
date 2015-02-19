@@ -13,4 +13,4 @@ This document describes the latest changes about the GUI of the cloud matching p
 
 = Running =
 
-To launch the client, you can run the file ClientUI.java in the package _client.gui.main_
+To launch the client, you can run the file *ClientUI.java* in the package _client.gui.main_
